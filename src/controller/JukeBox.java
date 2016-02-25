@@ -10,8 +10,14 @@ public class JukeBox {
 	
 	public JukeBox(){
 		songCollection = new HashMap<>();
+		addSongsToSongCollection();
 	}
 	
+	private void addSongsToSongCollection() {
+		
+		
+	}
+
 	public void setupView(){
 		
 	}
