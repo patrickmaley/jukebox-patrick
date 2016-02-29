@@ -15,12 +15,20 @@ public class JukeBoxAccount {
 	}
 	
 	// what's the difference between this and the canPlay method in Jukebox?
-	public boolean canPlaySong(Song song){
-		return false;
+	public boolean canPlaySong(){
+		return numberOfSongsPlayed < 4;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void resetNumberOfSongsPlayer(){
+		this.numberOfSongsPlayed = 0;
+	}
+	
+	public void setNumberOfSongsPlayed(){
+		this.numberOfSongsPlayed++;
 	}
 	
 }

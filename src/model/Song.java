@@ -15,6 +15,10 @@ public class Song {
 		this.pathName = path;
 	}
 	public void setNumPlays(int num){
-		numberOfPlays = num;
+		this.numberOfPlays = num;
+	}
+	
+	public int getNumPlays(){
+		return this.numberOfPlays;
 	}
 }
