@@ -14,7 +14,7 @@ public class Song {
 		this.numberOfPlays = 0;
 		this.pathName = path;
 	}
-	public void resetPlays(){
-		
+	public void setNumPlays(int num){
+		numberOfPlays = num;
 	}
 }

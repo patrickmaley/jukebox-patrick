@@ -5,6 +5,7 @@ public class JukeBoxAccount {
 	private int playtime;
 	private int numberOfSongsPlayed;
 	private String name;
+	// add String password?
 	
 	public JukeBoxAccount(String name, int id){
 		this.numberOfSongsPlayed = 0;
@@ -13,8 +14,13 @@ public class JukeBoxAccount {
 		this.name = name;
 	}
 	
+	// what's the difference between this and the canPlay method in Jukebox?
 	public boolean canPlaySong(Song song){
 		return false;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 }
