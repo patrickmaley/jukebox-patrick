@@ -1,7 +1,20 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.time.LocalDate;
 import java.util.HashMap;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import model.CardReader;
 import model.JukeBoxAccount;
@@ -16,16 +29,35 @@ import model.Song;
  * 4.IN PROGRESS: NEED TESTING-Create local date variable, implement it and Reset playtime and songs played variables with local dates
  * 5.IN PROGRESS: NEED TESTING-Tests for playlimit time and amount of times played for users and songs
  * 6.DONE- Finish song class with pathnames variable.
- * *Work on the GUI
+ * 7.In Progress- Work on the GUI
+ * 	-Have the general view for iteration 1. 
+ * 	-TO DOS: Implement listeners for the buttons
  * 
  */
-public class JukeBox {
+@SuppressWarnings("serial")
+public class JukeBox extends JFrame{
 	
-	HashMap<Integer, Song> songCollection;
-	CardReader cardReader;
-	Playlist chosenSongs;
-	LocalDate theDate;
-	JukeBoxAccount userAccount;
+	private HashMap<Integer, Song> songCollection;
+	private CardReader cardReader;
+	private Playlist chosenSongs;
+	private LocalDate theDate;
+	private JukeBoxAccount userAccount;
+	private JButton selectSongOne = new JButton("Select Song One");
+	private JButton selectSongTwo = new JButton("Select Song Two");
+	private JButton signInButton = new JButton("Sign In");
+	private JButton signOutButton = new JButton("Sign Out");
+	
+	private JPanel buttonsPanel = new JPanel();
+	private JPanel signInPanel = new JPanel(new GridLayout(0,2));
+	private JTextField signInText = new JTextField();
+	private JPasswordField passwordText = new JPasswordField(10);
+	private JTextArea textField = new JTextArea("Hello adasdfadfasddddd");
+	
+	//Initiates the GUI and the player logic
+	public static void main(String[] args) {
+		new JukeBox().setVisible(true);
+	}
+	
 	
 	public JukeBox(){
 		songCollection = new HashMap<>();
@@ -34,8 +66,57 @@ public class JukeBox {
 		theDate = LocalDate.now();
 		userAccount = cardReader.getCurrentAccount();
 		addSongsToSongCollection();
+		frameProperties();
 	}
 	
+	private void frameProperties() {
+		setTitle("CSC335 Music Player");
+		setLayout(new FlowLayout());
+		setSize(400, 400);
+		setLocation(200,200);
+		//this.setResizable(false);
+		getContentPane().setBackground(new Color(100,100,100));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//Adds all the components to the JFrame -PM
+		addComponents();
+	}
+
+	private void addComponents() {
+		
+		//Song Panel where the user chooses information
+		buttonsPanel.add(selectSongOne);
+		buttonsPanel.add(selectSongTwo);
+		buttonsPanel.setBackground(new Color(100,100,100));
+		add(buttonsPanel);
+		
+		//Sign In Panel where the user inputs information
+		JLabel userNameLabel = new JLabel("User Name");
+		JLabel passwordLabel = new JLabel("Password");
+		userNameLabel.setForeground(Color.WHITE);
+		userNameLabel.setLabelFor(signInText);
+		passwordLabel.setForeground(Color.WHITE);
+		passwordLabel.setLabelFor(passwordText);
+	
+		signInPanel.add(userNameLabel);
+		signInPanel.add(signInText);
+		signInPanel.add(passwordLabel);
+        signInPanel.add(passwordText);
+        signInPanel.add(this.signInButton);
+        signInPanel.add(this.signOutButton);
+        signInPanel.setBackground(new Color(100,100,100));
+		
+		//This will display messages to the user on whether they successfully logged in or not -PM
+		textField.setSize(50, 75);
+		textField.setBackground(new Color(100,100,100));
+		textField.setForeground(Color.WHITE);
+		signInPanel.add(textField);
+		
+		add(signInPanel);
+		
+	}
+
+
 	private void addSongsToSongCollection() {
 		Song songOne = new Song("Unknown", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		Song songTwo = new Song("Unknown", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);
@@ -76,6 +157,7 @@ public class JukeBox {
 		if(song.getNumPlays() < 4 && this.userAccount.canPlaySong()){ 
 			addToPlayList(song);
 			this.userAccount.setNumberOfSongsPlayed();
+			//add song++;
 		}else{
 			//Return a jpanel saying the limit has been reached-PM
 		}
