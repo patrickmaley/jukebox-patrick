@@ -127,6 +127,9 @@ public class JukeBox extends JFrame{
 		
 	}
 	
+	private void play() {
+		while (true);
+	}
 	private class SignInListener implements ActionListener {
 
 		@Override

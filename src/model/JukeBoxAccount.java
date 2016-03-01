@@ -32,7 +32,7 @@ public class JukeBoxAccount {
 	}
 	
 	public void subtractPlayTime(Song song) {
-		playtime =- song.getSongLength();
+		playtime -= song.getSongLength();
 	}
 	
 }
