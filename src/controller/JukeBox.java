@@ -22,6 +22,9 @@ import model.CardReader;
 import model.JukeBoxAccount;
 import model.Playlist;
 import model.Song;
+import songplayer.EndOfSongEvent;
+import songplayer.EndOfSongListener;
+import songplayer.SongPlayer;
 
 /*
  * TODO: 
@@ -54,6 +57,7 @@ public class JukeBox extends JFrame{
 	private JTextField passwordText = new JTextField();
 	private JTextArea textField = new JTextArea("Hello, please sign in");
 	
+	private boolean playlistWatcher = true;
 	//Initiates the GUI and the player logic
 	public static void main(String[] args) {
 		new JukeBox().setVisible(true);
@@ -65,7 +69,6 @@ public class JukeBox extends JFrame{
 		cardReader = new CardReader();
 		chosenSongs = new Playlist();
 		theDate = LocalDate.now();
-		//userAccount = cardReader.getCurrentAccount(); // do later
 		addSongsToSongCollection();
 		frameProperties();
 	}
@@ -82,9 +85,7 @@ public class JukeBox extends JFrame{
 		//Adds all the components to the JFrame -PM
 		addComponents();
 		
-	}
-
-	
+	}	
 
 
 	private void addComponents() {
@@ -130,9 +131,28 @@ public class JukeBox extends JFrame{
 		
 	}
 	
-	private void play() {
-		while (true);
+	private void play() {		
+		EndOfSongListener waitForSongEnd = new WaitingForSongToEnd();
+		
+		SongPlayer.playFile(waitForSongEnd, chosenSongs.peek().getPathName());
 	}
+	
+	private class WaitingForSongToEnd implements EndOfSongListener {
+
+		public void songFinishedPlaying(EndOfSongEvent eosEvent) {
+			chosenSongs.removeSong();
+			
+			if (chosenSongs.peek() != null) {
+				
+				play();
+				
+				System.out.println("numPlays: " + userAccount.getNumberOfSongsPlayed() + "\n " + songCollection.get(4).getNumPlays());
+			} else{
+				playlistWatcher = true;
+			}
+		}
+	}
+	
 	private class SignInListener implements ActionListener {
 
 		@Override
@@ -142,7 +162,9 @@ public class JukeBox extends JFrame{
 			 if (cardReader.readAccount(signInText.getText(), password)) {
 				 selectSongOne.setEnabled(true);
 				 selectSongTwo.setEnabled(true);
+				 userAccount = cardReader.getCurrentAccount();
 				 textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
+				 System.out.println("numPlays: " + userAccount.getNumberOfSongsPlayed() + "\n " + songCollection.get(4).getNumPlays());
 			 } else {
 				 textField.setText("Account login failed");
 			 }
@@ -172,7 +194,11 @@ public class JukeBox extends JFrame{
 			if (canPlay(songOne)) {
 				userAccount.incrementNumberOfSongsPlayed();
 				userAccount.subtractPlayTime(songOne);
-				chosenSongs.addSong(songOne);				
+				chosenSongs.addSong(songOne);
+				if(playlistWatcher){
+					play();
+					playlistWatcher = false;
+				}
 			}
 			
 		}
@@ -183,11 +209,17 @@ public class JukeBox extends JFrame{
 	private class SongTwoListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			Song songTwo = songCollection.get(2);
-			if (canPlay(songTwo)) {
+			
+			if (canPlay( songCollection.get(4))) {
 				userAccount.incrementNumberOfSongsPlayed();
-				userAccount.subtractPlayTime(songTwo);
-				chosenSongs.addSong(songTwo);				
+				System.out.println("numPlays: " + userAccount.getNumberOfSongsPlayed() + "\n " + songCollection.get(4).getNumPlays());
+				userAccount.subtractPlayTime( songCollection.get(4));
+				chosenSongs.addSong( songCollection.get(4));
+				
+				if(playlistWatcher){
+					play();
+					playlistWatcher = false;
+				}
 			}
 			
 		}
@@ -198,7 +230,7 @@ public class JukeBox extends JFrame{
 		Song songOne = new Song("Kevin MacLeod", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		Song songTwo = new Song("FreePlay Music", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);
 		Song songThree = new Song("Sun Microsystems", "Flute", "./songfiles/flute.mp3", 5);
-		Song songFour = new Song("Unknown", "Loping Flute", "./songfiles/LopingString.mp3", 4);
+		Song songFour = new Song("Unknown", "Loping Flute", "./songfiles/LopingSting.mp3", 4);
 		Song songFive = new Song("Unknown", "Space Music", "./songfiles/spacemusic.mp3", 6);
 		Song songSix = new Song("FreePlay Music", "Swing Cheese", "./songfiles/SwingCheese.mp3", 15);
 		Song songSeven = new Song("Microsoft", "TaDa", "./songfiles/tada.mp3", 2);
@@ -226,10 +258,9 @@ public class JukeBox extends JFrame{
 		
 		//Checks both the number of times the song has been chosen and the number of times
 		//the user has chosen a song -PM
-		if(song.getNumPlays() < 4 && this.userAccount.canPlaySong()){ 
+		if(song.getNumPlays() < 3 && this.userAccount.canPlaySong()){ 
 			addToPlayList(song);
 
-			this.userAccount.incrementNumberOfSongsPlayed();
 			song.setNumPlays(song.getNumPlays() + 1);
 			return true;
 			
