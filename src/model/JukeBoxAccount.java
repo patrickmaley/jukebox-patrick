@@ -31,8 +31,17 @@ public class JukeBoxAccount {
 		this.numberOfSongsPlayed++;
 	}
 	
+
+	public int getNumberOfSongsPlayed(){
+		return this.numberOfSongsPlayed;
+	}
+
 	public void subtractPlayTime(Song song) {
 		playtime -= song.getSongLength();
 	}
 	
+	public int getPlayTime(){
+		return this.playtime;
+	}
+
 }

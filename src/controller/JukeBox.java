@@ -34,7 +34,6 @@ import model.Song;
  * 7.In Progress- Work on the GUI
  * 	-Have the general view for iteration 1. 
  * 	-TO DOS: Implement listeners for the buttons
- * 
  */
 @SuppressWarnings("serial")
 public class JukeBox extends JFrame{
@@ -82,10 +81,13 @@ public class JukeBox extends JFrame{
 		
 		//Adds all the components to the JFrame -PM
 		addComponents();
+		
 	}
 
+	
+
+
 	private void addComponents() {
-		
 		//Song Panel where the user chooses information
 		buttonsPanel.add(selectSongOne);
 		buttonsPanel.add(selectSongTwo);
@@ -119,6 +121,7 @@ public class JukeBox extends JFrame{
 		signInPanel.add(textField);
 		
 		add(signInPanel);
+
 		
 		signInButton.addActionListener(new SignInListener());
 		signOutButton.addActionListener(new SignOutListener());
@@ -174,6 +177,7 @@ public class JukeBox extends JFrame{
 			
 		}
 		
+
 	}
 	
 	private class SongTwoListener implements ActionListener {
@@ -211,13 +215,12 @@ public class JukeBox extends JFrame{
 		this.songCollection.put(8, songEight);
 		this.songCollection.put(9, songNine);
 	}
-	
+
+
 	public boolean canPlay(Song song){
 		LocalDate dateChecker = LocalDate.now();
 		if(this.theDate.getDayOfYear() < dateChecker.getDayOfYear()){
-			for (JukeBoxAccount account : cardReader.getAccountCollection()) {
-				account.resetNumberOfSongsPlayed();
-			}
+			cardReader.getAccountCollection().resetPlays();
 			theDate = dateChecker;//Change the programs date to the new date of today-PM
 		}
 		
@@ -225,10 +228,22 @@ public class JukeBox extends JFrame{
 		//the user has chosen a song -PM
 		if(song.getNumPlays() < 4 && this.userAccount.canPlaySong()){ 
 			addToPlayList(song);
+
 			this.userAccount.incrementNumberOfSongsPlayed();
+			song.setNumPlays(song.getNumPlays() + 1);
+			return true;
+			
 			//add song++;
+
 		}else{
 			//Return a jpanel saying the limit has been reached-PM
+			if(song.getNumPlays() >=4){
+				textField.setText("The allotted song plays has been reached for this song. ");
+			}
+			if(!this.userAccount.canPlaySong()){
+				textField.append("You have reached the allot limit for the amount of songs you can play");
+			}
+			
 		}
 		return false;
 		
