@@ -21,4 +21,16 @@ public class Song {
 	public int getNumPlays(){
 		return this.numberOfPlays;
 	}
+	
+	public String getSongName(){
+		return this.songName;
+	}
+	
+	public String getPathName(){
+		return this.pathName;
+	}
+	
+	public int getLength(){
+		return this.length;
+	}
 }

@@ -2,33 +2,34 @@ package model;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
-public class AccountCollection implements Iterable<JukeBoxAccount>{
+public class AccountCollection {//implements Iterable<JukeBoxAccount>{
 	
-	public static class MyIterator implements Iterator<JukeBoxAccount> {
-		
-		private final AccountCollection myAccountCollection;
-		private int current;
-		
-		public MyIterator(AccountCollection accountCollection) { // pass AccountCollection or HashMap?
-			this.myAccountCollection = accountCollection;
-			current = 1;
-		}
-
-		@Override
-		public boolean hasNext() {
-			return current < 4;
-		}
-
-		@Override
-		public JukeBoxAccount next() {
-			if (!hasNext()) throw new NoSuchElementException();
-			return myAccountCollection.accountCollection.get(current++); // variable name problems?
-		}
-		
-	}
-	
+//	public static class MyIterator implements Iterator<JukeBoxAccount> {
+//		
+//		private final AccountCollection myAccountCollection;
+//		private int current;
+//		
+//		public MyIterator(AccountCollection accountCollection) { // pass AccountCollection or HashMap?
+//			this.myAccountCollection = accountCollection;
+//			current = 1;
+//		}
+//
+//		@Override
+//		public boolean hasNext() {
+//			return current < 4;
+//		}
+//
+//		@Override
+//		public JukeBoxAccount next() {
+//			if (!hasNext()) throw new NoSuchElementException();
+//			return myAccountCollection.accountCollection.get(current++); // variable name problems?
+//		}
+//		
+//	}
+//	
 	HashMap<Integer, JukeBoxAccount> accountCollection;
 	
 	public AccountCollection(){
@@ -51,11 +52,18 @@ public class AccountCollection implements Iterable<JukeBoxAccount>{
 	}
 
 	public void resetPlays() {
-		
+		Iterator<Entry<Integer, JukeBoxAccount>> itr = this.accountCollection.entrySet().iterator();
+		while(itr.hasNext()){
+			itr.next().getValue().resetNumberOfSongsPlayer();
+		}
 	}
 
-	@Override
-	public Iterator<JukeBoxAccount> iterator() {
-		return new MyIterator(this);
+//	@Override
+//	public Iterator<JukeBoxAccount> iterator() {
+//		return new MyIterator(this);
+//	}
+	
+	public HashMap<Integer, JukeBoxAccount> getAccountCollection(){
+		return this.accountCollection;
 	}
 }

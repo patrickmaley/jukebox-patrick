@@ -31,4 +31,7 @@ public class JukeBoxAccount {
 		this.numberOfSongsPlayed++;
 	}
 	
+	public int getNumberOfSongsPlayed(){
+		return this.numberOfSongsPlayed;
+	}
 }
