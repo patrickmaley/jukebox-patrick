@@ -22,4 +22,8 @@ public class Song {
 	public int getNumPlays(){
 		return this.numberOfPlays;
 	}
+	
+	public int getSongLength() {
+		return length;
+	}
 }

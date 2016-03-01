@@ -158,22 +158,31 @@ public class JukeBox extends JFrame{
 		
 	}
 
-	// implement later
 	private class SongOneListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			userAccount.incrementNumberOfSongsPlayed();
-			chosenSongs.addSong(songCollection.get(1));
+			Song songOne = songCollection.get(1);
+			if (canPlay(songOne)) {
+				userAccount.incrementNumberOfSongsPlayed();
+				userAccount.subtractPlayTime(songOne);
+				chosenSongs.addSong(songOne);				
+			}
+			
 		}
 		
 	}
 	
-	// implement later
 	private class SongTwoListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			chosenSongs.addSong(songCollection.get(2));
+			Song songTwo = songCollection.get(2);
+			if (canPlay(songTwo)) {
+				userAccount.incrementNumberOfSongsPlayed();
+				userAccount.subtractPlayTime(songTwo);
+				chosenSongs.addSong(songTwo);				
+			}
+			
 		}
 		
 	}
