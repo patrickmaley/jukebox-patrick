@@ -16,6 +16,10 @@ public class Song {
 	}
 	
 	public void setNumPlays(int num){
-		numberOfPlays = num;
+		this.numberOfPlays = num;
+	}
+	
+	public int getNumPlays(){
+		return this.numberOfPlays;
 	}
 }

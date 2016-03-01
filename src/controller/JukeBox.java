@@ -1,8 +1,11 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 
 import model.CardReader;
+import model.JukeBoxAccount;
+import model.Playlist;
 import model.Song;
 
 /*
@@ -10,8 +13,8 @@ import model.Song;
  * 1.Complete authentication for usernames and password. And get testing code for it
  * 2.Create functionality for the 3 song limit
  * 3.Queue for playlist functionality
- * 4.Create local date variable, implement it and Reset playtime and songs played variables with local dates
- * 5.Tests for playlimit time and amount of times played for users and songs
+ * 4.IN PROGRESS: NEED TESTING-Create local date variable, implement it and Reset playtime and songs played variables with local dates
+ * 5.IN PROGRESS: NEED TESTING-Tests for playlimit time and amount of times played for users and songs
  * 6.DONE- Finish song class with pathnames variable.
  * *Work on the GUI
  * 
@@ -19,10 +22,17 @@ import model.Song;
 public class JukeBox {
 	
 	HashMap<Integer, Song> songCollection;
-	CardReader cardReader = new CardReader();
+	CardReader cardReader;
+	Playlist chosenSongs;
+	LocalDate theDate;
+	JukeBoxAccount userAccount;
 	
 	public JukeBox(){
 		songCollection = new HashMap<>();
+		cardReader = new CardReader();
+		chosenSongs = new Playlist();
+		theDate = LocalDate.now();
+		userAccount = cardReader.getCurrentAccount();
 		addSongsToSongCollection();
 	}
 	
@@ -53,12 +63,29 @@ public class JukeBox {
 	}
 	
 	public boolean canPlay(Song song){
+		LocalDate dateChecker = LocalDate.now();
+		if(this.theDate.getDayOfYear() < dateChecker.getDayOfYear()){
+			for (JukeBoxAccount account : cardReader.getAccountCollection()) {
+				account.resetNumberOfSongsPlayer();
+			}
+			theDate = dateChecker;//Change the programs date to the new date of today-PM
+		}
+		
+		//Checks both the number of times the song has been chosen and the number of times
+		//the user has chosen a song -PM
+		if(song.getNumPlays() < 4 && this.userAccount.canPlaySong()){ 
+			addToPlayList(song);
+			this.userAccount.setNumberOfSongsPlayed();
+		}else{
+			//Return a jpanel saying the limit has been reached-PM
+		}
 		return false;
 		
 	}
 	
+	//Might refactor this Method because it is kind redundant -PM
 	public void addToPlayList(Song song){
-		
+		chosenSongs.addSong(song);
 	}
 }
 
