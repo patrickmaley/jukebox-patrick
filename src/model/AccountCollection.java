@@ -3,8 +3,21 @@ package model;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-
+/*Author: Patrick Maley && Brian Wehrle
+ * 
+ *Class: CSC 335
+ * 
+ *Project: JukeBox Iteration 1
+ * 
+ *Date: February 29, 2016
+ *
+ *Professor: Dr. Mercer
+ *
+ *Section Lead: Cindy Trieu
+ *
+ *Class Description: AccountCollection class hardcodes the accounts available to the user.
+ *It also can reset the plays for all accounts when the date changes.
+ */
 public class AccountCollection {//implements Iterable<JukeBoxAccount>{
 	
 //	public static class MyIterator implements Iterator<JukeBoxAccount> {

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -17,7 +18,20 @@ import model.Song;
 
 import model.CardReader;
 
-
+/*Author: Patrick Maley && Brian Wehrle
+ * 
+ *Class: CSC 335
+ * 
+ *Project: JukeBox Iteration 1
+ * 
+ *Date: February 29, 2016
+ *
+ *Professor: Dr. Mercer
+ *
+ *Section Lead: Cindy Trieu
+ *
+ *Class Description: JukeBoxTester tests the model classes of this program.
+ */
 
 public class JukeBoxTester {
 	
@@ -135,6 +149,25 @@ public class JukeBoxTester {
 		
 		cardReader.readAccount("Chris", 1234); // not an existing password
 		assertEquals(null, cardReader.getCurrentAccount());
-
+	}
+	
+	@Test
+	public void dateResetTest() {
+		AccountCollection allUsers = new AccountCollection();
+		HashMap<Integer, JukeBoxAccount> accounts = allUsers.getAccountCollection();
+		LocalDate dateChecker = LocalDate.now();
+		LocalDate theDate = LocalDate.now();
+		
+		accounts.get(1).incrementNumberOfSongsPlayed();
+		assertEquals(1, accounts.get(1).getNumberOfSongsPlayed());
+		assertFalse(0 == accounts.get(1).getNumberOfSongsPlayed());
+		
+		if(theDate.getDayOfYear() < dateChecker.getDayOfYear() +1){
+			allUsers.resetPlays();
+			theDate = dateChecker;//Change the programs date to the new date of today-PM
+		}
+		
+		assertEquals(0, accounts.get(1).getNumberOfSongsPlayed());
+		assertTrue(0 == accounts.get(1).getNumberOfSongsPlayed());
 	}
 }
