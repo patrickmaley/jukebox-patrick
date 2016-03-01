@@ -54,7 +54,7 @@ public class AccountCollection {//implements Iterable<JukeBoxAccount>{
 	public void resetPlays() {
 		Iterator<Entry<Integer, JukeBoxAccount>> itr = this.accountCollection.entrySet().iterator();
 		while(itr.hasNext()){
-			itr.next().getValue().resetNumberOfSongsPlayer();
+			itr.next().getValue().resetNumberOfSongsPlayed();
 		}
 	}
 

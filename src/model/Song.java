@@ -14,6 +14,7 @@ public class Song {
 		this.numberOfPlays = 0;
 		this.pathName = path;
 	}
+	
 	public void setNumPlays(int num){
 		this.numberOfPlays = num;
 	}
@@ -22,6 +23,7 @@ public class Song {
 		return this.numberOfPlays;
 	}
 	
+
 	public String getSongName(){
 		return this.songName;
 	}
@@ -30,7 +32,10 @@ public class Song {
 		return this.pathName;
 	}
 	
-	public int getLength(){
-		return this.length;
+
+
+	public int getSongLength() {
+		return length;
+
 	}
 }

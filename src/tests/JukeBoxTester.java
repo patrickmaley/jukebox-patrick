@@ -15,10 +15,15 @@ import model.JukeBoxAccount;
 import model.Playlist;
 import model.Song;
 
+import model.CardReader;
+
+
+
 public class JukeBoxTester {
 	
 	//Source code for iterating through an hashmap
 	@Test
+
 	public void accountCollectionTest() {
 		AccountCollection allUsers = new AccountCollection();
 		int users = 0;
@@ -44,6 +49,7 @@ public class JukeBoxTester {
 	@Test
 	public void accountCollectionUserPlaysTest() {
 		AccountCollection allUsers = new AccountCollection();
+		Song songOne = new Song("Unknown", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		HashMap<Integer, JukeBoxAccount> accounts = allUsers.getAccountCollection();
 		
 		assertEquals(0, accounts.get(1).getNumberOfSongsPlayed());
@@ -51,13 +57,13 @@ public class JukeBoxTester {
 		assertEquals(0, accounts.get(333).getNumberOfSongsPlayed());
 		assertEquals(0, accounts.get(4444).getNumberOfSongsPlayed());
 		
-		accounts.get(1).setNumberOfSongsPlayed();
+		accounts.get(1).incrementNumberOfSongsPlayed();
 		assertEquals(1, accounts.get(1).getNumberOfSongsPlayed());
 		assertFalse(0 == accounts.get(1).getNumberOfSongsPlayed());
 		
-		accounts.get(1).setNumberOfSongsPlayed();
-		accounts.get(1).setNumberOfSongsPlayed();
-		accounts.get(1).setNumberOfSongsPlayed();
+		accounts.get(1).incrementNumberOfSongsPlayed();
+		accounts.get(1).incrementNumberOfSongsPlayed();
+		accounts.get(1).incrementNumberOfSongsPlayed();
 		assertEquals(4, accounts.get(1).getNumberOfSongsPlayed());
 		
 		assertFalse(accounts.get(1).canPlaySong());
@@ -65,6 +71,8 @@ public class JukeBoxTester {
 		assertTrue(accounts.get(333).canPlaySong());
 		assertTrue(accounts.get(4444).canPlaySong());
 		
+		accounts.get(4444).subtractPlayTime(songOne);
+		assertEquals(1466, accounts.get(4444).getPlayTime());
 		allUsers.resetPlays();
 		assertEquals(0, accounts.get(1).getNumberOfSongsPlayed());
 		assertEquals(0, accounts.get(22).getNumberOfSongsPlayed());
@@ -84,8 +92,8 @@ public class JukeBoxTester {
 		assertEquals("./songfiles/DanseMacabreViolinHook.mp3", songOne.getPathName());
 		assertEquals("Determined Tumbao", songTwo.getSongName());
 		
-		assertEquals(34, songOne.getLength());
-		assertEquals(20, songTwo.getLength());
+		assertEquals(34, songOne.getSongLength());
+		assertEquals(20, songTwo.getSongLength());
 	}
 	
 	@Test
@@ -116,5 +124,17 @@ public class JukeBoxTester {
 		assertEquals(songOne, userSongs.removeSong());
 		
 		assertEquals(songTwo, userSongs.peek());
+	}
+	
+	@Test
+	public void CardReaderTest() {
+		CardReader cardReader = new CardReader();
+		
+		assertEquals(true, cardReader.readAccount("Chris", 1));
+		assertEquals(false, cardReader.readAccount("Chris", 22));
+		
+		cardReader.readAccount("Chris", 1234); // not an existing password
+		assertEquals(null, cardReader.getCurrentAccount());
+
 	}
 }
