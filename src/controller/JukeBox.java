@@ -164,7 +164,6 @@ public class JukeBox extends JFrame{
 				 selectSongTwo.setEnabled(true);
 				 userAccount = cardReader.getCurrentAccount();
 				 textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
-				 System.out.println("numPlays: " + userAccount.getNumberOfSongsPlayed() + "\n " + songCollection.get(4).getNumPlays());
 			 } else {
 				 textField.setText("Account login failed");
 			 }
