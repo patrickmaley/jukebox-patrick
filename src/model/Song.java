@@ -29,25 +29,27 @@ public class Song {
 		this.pathName = path;
 	}
 	
+	// sets of the number of plays
 	public void setNumPlays(int num){
 		this.numberOfPlays = num;
 	}
 	
+	// returns the number of plays
 	public int getNumPlays(){
 		return this.numberOfPlays;
 	}
 	
-
+	//returns the name of the song
 	public String getSongName(){
 		return this.songName;
 	}
 	
+	// returns the path variable to the song
 	public String getPathName(){
 		return this.pathName;
 	}
 	
-
-
+	// returns the length of the song
 	public int getSongLength() {
 		return length;
 

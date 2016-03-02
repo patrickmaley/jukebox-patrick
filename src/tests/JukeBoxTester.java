@@ -86,7 +86,7 @@ public class JukeBoxTester {
 		assertTrue(accounts.get(4444).canPlaySong());
 		
 		accounts.get(4444).subtractPlayTime(songOne);
-		assertEquals(1466, accounts.get(4444).getPlayTime());
+		assertEquals(89966, accounts.get(4444).getPlayTime());
 		allUsers.resetPlays();
 		assertEquals(0, accounts.get(1).getNumberOfSongsPlayed());
 		assertEquals(0, accounts.get(22).getNumberOfSongsPlayed());
