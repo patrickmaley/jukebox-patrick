@@ -18,31 +18,8 @@ import java.util.Map.Entry;
  *Class Description: AccountCollection class hardcodes the accounts available to the user.
  *It also can reset the plays for all accounts when the date changes.
  */
-public class AccountCollection {//implements Iterable<JukeBoxAccount>{
+public class AccountCollection {
 	
-//	public static class MyIterator implements Iterator<JukeBoxAccount> {
-//		
-//		private final AccountCollection myAccountCollection;
-//		private int current;
-//		
-//		public MyIterator(AccountCollection accountCollection) { // pass AccountCollection or HashMap?
-//			this.myAccountCollection = accountCollection;
-//			current = 1;
-//		}
-//
-//		@Override
-//		public boolean hasNext() {
-//			return current < 4;
-//		}
-//
-//		@Override
-//		public JukeBoxAccount next() {
-//			if (!hasNext()) throw new NoSuchElementException();
-//			return myAccountCollection.accountCollection.get(current++); // variable name problems?
-//		}
-//		
-//	}
-//	
 	HashMap<Integer, JukeBoxAccount> accountCollection;
 	
 	public AccountCollection(){
@@ -50,6 +27,7 @@ public class AccountCollection {//implements Iterable<JukeBoxAccount>{
 		createAccounts();
 	}
 	
+	// hardcodes all the accounts given in the spec and puts them in the HashMap
 	private void createAccounts() {
 		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris", 1);
 		JukeBoxAccount devonAccount = new JukeBoxAccount("Devon", 2);
@@ -64,18 +42,15 @@ public class AccountCollection {//implements Iterable<JukeBoxAccount>{
 		accountCollection.put(4444, ryanAccount);
 	}
 
+	// Resets the plays of all the accounts in the accountCollection. 
 	public void resetPlays() {
 		Iterator<Entry<Integer, JukeBoxAccount>> itr = this.accountCollection.entrySet().iterator();
 		while(itr.hasNext()){
 			itr.next().getValue().resetNumberOfSongsPlayed();
 		}
 	}
-
-//	@Override
-//	public Iterator<JukeBoxAccount> iterator() {
-//		return new MyIterator(this);
-//	}
 	
+	// Returns the HashMap of accounts
 	public HashMap<Integer, JukeBoxAccount> getAccountCollection(){
 		return this.accountCollection;
 	}

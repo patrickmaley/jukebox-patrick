@@ -70,7 +70,8 @@ public class JukeBox extends JFrame{
 	private JPanel signInPanel = new JPanel(new GridLayout(0,2));
 	private JTextField signInText = new JTextField();
 	private JTextField passwordText = new JTextField();
-	private JTextArea textField = new JTextArea("Hello, please sign in");
+	private JTextArea textField = new JTextArea("Hello, please sign in.");
+	private JTextArea statusField = new JTextArea("| Status: - songs played, - minutes remaining"); 
 	
 	private boolean playlistWatcher = true;
 	
@@ -95,7 +96,6 @@ public class JukeBox extends JFrame{
 		setLayout(new FlowLayout());
 		setSize(500, 500);
 		setLocation(200,200);
-		//this.setResizable(false);
 		getContentPane().setBackground(new Color(100,100,100));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -137,6 +137,11 @@ public class JukeBox extends JFrame{
 		textField.setBackground(new Color(100,100,100));
 		textField.setForeground(Color.WHITE);
 		add(textField);
+		
+		statusField.setSize(50, 500);
+		statusField.setBackground(new Color(100,100,100));
+		statusField.setForeground(Color.WHITE);
+		add(statusField);
 		
 		signInButton.addActionListener(new SignInListener());
 		signOutButton.addActionListener(new SignOutListener());
@@ -188,6 +193,10 @@ public class JukeBox extends JFrame{
 				 selectSongTwo.setEnabled(true);
 				 userAccount = cardReader.getCurrentAccount();
 				 textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
+<<<<<<< HEAD
+=======
+				 statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
+>>>>>>> ce9dfbc44d01d88b251616ff1a89b7c024a7c10a
 			 } else {
 				 textField.setText("Account login failed");
 				 JOptionPane.showMessageDialog(null, "Account login failed");
@@ -208,6 +217,7 @@ public class JukeBox extends JFrame{
 			selectSongTwo.setEnabled(false);
 			
 			textField.setText("Successfully signed out");
+			statusField.setText("| Status: -, ----");
 		}
 		
 	}
@@ -221,9 +231,8 @@ public class JukeBox extends JFrame{
 			if (canPlay(songOne)) {
 				userAccount.incrementNumberOfSongsPlayed();
 				userAccount.subtractPlayTime(songOne);
-				
-				//The canPlay() method already adds the song to the list
-				//addToPlayList(songOne);
+				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
+
 				if(playlistWatcher){
 					play();
 					playlistWatcher = false;
@@ -238,10 +247,15 @@ public class JukeBox extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if (canPlay( songCollection.get(4))) {
 				userAccount.incrementNumberOfSongsPlayed();
+<<<<<<< HEAD
 				userAccount.subtractPlayTime( songCollection.get(4));
 				
 				//The canPlay() method already adds the song to the list
 				//addToPlayList(songCollection.get(4));
+=======
+				userAccount.subtractPlayTime(songCollection.get(4));
+				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
+>>>>>>> ce9dfbc44d01d88b251616ff1a89b7c024a7c10a
 				
 				if(playlistWatcher){
 					play();

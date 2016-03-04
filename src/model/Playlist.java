@@ -26,20 +26,25 @@ public class Playlist {
 		songCount = 0;
 	}
 	
+	
+	// adds a song to the playlist, and increments songCount
 	public void addSong(Song song){
 		this.playlist.add(song);
 		songCount++;
 	}
 	
+	// removes a song from the playlist, and decrements songCount
 	public Song removeSong(){
 		songCount--;
 	    return this.playlist.remove();
 	}
-	
+
+	// returns songCount
 	public int getSongCount(){
 		return this.songCount;
 	}
 	
+	// peeks at the top song on the queue
 	public Song peek(){
 		return this.playlist.peek();
 	}

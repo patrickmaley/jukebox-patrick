@@ -15,20 +15,20 @@ package model;
  *whether or not the login information in the JukeBox controller is in the hashmap.
  *If so it returns true and sets the currentAccount to true.
  */
+
 public class CardReader {
 	
 	private JukeBoxAccount currentAccount;
 	private AccountCollection accountCollection;
 	
 	public CardReader(){
-		
+		accountCollection = new AccountCollection();
 	}
 	
 	//Finds the account in the accountCollection by matching the passwords
-	public boolean readAccount(String accountName, int password){
-		accountCollection = new AccountCollection();		
-		
+	public boolean readAccount(String accountName, int password){				
 		currentAccount = accountCollection.accountCollection.get(password);
+		
 		if (currentAccount == null) {	
 			return false;
 		}
@@ -41,15 +41,13 @@ public class CardReader {
 	}
 	
 	//Returns the accountcollection to the JukeBox
-	public AccountCollection getAccountCollection(){
-		
+	public AccountCollection getAccountCollection(){		
 		return this.accountCollection;
 	}
 	
-	// must call readAccount to intialize currentAccount
+	// Returns the account that was most recently read.
+	// Must call readAccount to intialize currentAccount
 	public JukeBoxAccount getCurrentAccount(){
-		if (currentAccount == null) 
-			System.out.println("Account does not exist.");
 		
 		return this.currentAccount;
 	}
