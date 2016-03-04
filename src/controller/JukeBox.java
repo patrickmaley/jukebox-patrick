@@ -24,7 +24,29 @@ import songplayer.EndOfSongEvent;
 import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
 
-/*
+/*Iteration 2:
+ * TODO:
+ * 1.GUI: -Patrick 
+ * 		-Create a view package
+ * 		-Allow multiple users to login
+ * 		-select songs
+ * 		-maintain a playlist of songs 
+ * 		-maintain a songlist of songs to choose from
+ * 		-JPasswordField into view
+ * 2.Persistence:
+ * 		-writing serialized objects to disk - DO THIS LAST?
+ * 		-A lot 
+ * 3. Implement Design patterns: Use the following design patterns - Brian
+ * 		-Adapter: two collections are adapted to JTable and JList with the 
+ * 				interfaces TableModel and ListModel
+ * 		-Adapter: Have your WindowListener extend WindowAdapter
+ * 		-SingleTon: Two collections must be singletons so we dont have two different versionsof songs or accounts
+ * 		-Decorator: Decorate your Jtable and JList with a JScrollPane
+ * 		-Decorator: Decorate to classes with others to persist data
+ * 
+ * 4. Playlist can be sorted by artists
+ * 
+ * Iteration 1:
  * TODO: 
  * 1. DONE- Complete authentication for usernames and password. And get testing code for it
  * 2. DONE- Create functionality for the 3 song limit
