@@ -120,14 +120,13 @@ public class JukeBox extends JFrame{
 	private JTextField titleText = new JTextField("MondoPlayer JukeBox");
 	private JTextArea textField = new JTextArea("Hello, please sign in.");
 	private JTextArea statusField = new JTextArea("| Status: - songs played, - minutes remaining"); 
-
-	private JTextArea playlistList = new JTextArea("THIS IS A PLACEHOLDER UNTIL WE TURN IN");
+	
 	private JTextArea playlistList2 = new JTextArea("THIS IS A PLACEHOLDER UNTIL WE TURN IN");
 	private boolean playlistWatcher = true;
 	
-	private SongCollection songlistCollection = new SongCollection();
+	private SongCollection songlistCollection = SongCollection.makeSongCollection();
 	private TableModel songlistModel = null;
-	private JTable  songListTable = null;
+	private JTable songListTable = null;
 	
 	//Initiates the GUI and the player logic
 	public static void main(String[] args) {

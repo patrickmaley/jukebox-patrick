@@ -26,12 +26,8 @@ public class JukeBoxAccount {
 		this.id = id;
 		this.name = name;
 	}
-<<<<<<< HEAD
-
-=======
 	
 	// Determines if the user has reached their daily max limit of songs played
->>>>>>> ce9dfbc44d01d88b251616ff1a89b7c024a7c10a
 	public boolean canPlaySong(){
 		return numberOfSongsPlayed < 3;
 	}

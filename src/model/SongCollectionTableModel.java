@@ -15,7 +15,7 @@ public class SongCollectionTableModel implements TableModel{
 			Arrays.asList(new String[] {"Artist", "Title", "Length"}));
 	
 	public SongCollectionTableModel(){
-		this.songCollection = new SongCollection();
+		this.songCollection = SongCollection.makeSongCollection();
 		
 	}
 	@Override

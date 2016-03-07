@@ -215,10 +215,7 @@ public class JukeBox extends JFrame{
 				 selectSongTwo.setEnabled(true);
 				 userAccount = cardReader.getCurrentAccount();
 				 textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
-<<<<<<< HEAD
-=======
 				 statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
->>>>>>> ce9dfbc44d01d88b251616ff1a89b7c024a7c10a
 			 } else {
 				 textField.setText("Account login failed");
 				 JOptionPane.showMessageDialog(null, "Account login failed");
@@ -269,15 +266,12 @@ public class JukeBox extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if (canPlay( songCollection.get(4))) {
 				userAccount.incrementNumberOfSongsPlayed();
-<<<<<<< HEAD
 				userAccount.subtractPlayTime( songCollection.get(4));
 				
 				//The canPlay() method already adds the song to the list
 				//addToPlayList(songCollection.get(4));
-=======
 				userAccount.subtractPlayTime(songCollection.get(4));
 				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
->>>>>>> ce9dfbc44d01d88b251616ff1a89b7c024a7c10a
 				
 				if(playlistWatcher){
 					play();

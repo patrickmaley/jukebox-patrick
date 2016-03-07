@@ -10,10 +10,17 @@ import javax.swing.event.ListDataListener;
 public class SongCollection implements Serializable{
 
 	public ArrayList<Song> list;
+	private static SongCollection uniqueSongCollection;
 	
-	public SongCollection(){
+	private SongCollection(){
 		list = new ArrayList<Song>();
 		setUpSongList();
+	}
+	
+	public static SongCollection makeSongCollection() {
+		if (uniqueSongCollection == null)
+			return new SongCollection();
+		return uniqueSongCollection;
 	}
 	private void setUpSongList() {
 		Song songOne = new Song("Kevin MacLeod", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
