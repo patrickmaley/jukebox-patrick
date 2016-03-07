@@ -52,6 +52,15 @@ public class Song {
 	// returns the length of the song
 	public int getSongLength() {
 		return length;
-
+	}
+	
+	// return the artist
+	public String getArtist(){
+		return this.artist;
+	}
+	
+	@Override
+	public String toString(){
+		return null;
 	}
 }
