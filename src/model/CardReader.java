@@ -22,7 +22,7 @@ public class CardReader {
 	private AccountCollection accountCollection;
 	
 	public CardReader(){
-		accountCollection = new AccountCollection();
+		accountCollection = AccountCollection.makeAccountCollection();
 	}
 	
 	//Finds the account in the accountCollection by matching the passwords

@@ -39,7 +39,7 @@ public class JukeBoxTester {
 	@Test
 
 	public void accountCollectionTest() {
-		AccountCollection allUsers = new AccountCollection();
+		AccountCollection allUsers = AccountCollection.makeAccountCollection();
 		int users = 0;
 		Iterator<Entry<Integer, JukeBoxAccount>> itr = allUsers.getAccountCollection().entrySet().iterator();
 		while(itr.hasNext()){
@@ -51,7 +51,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void accountCollectionUserTest() {
-		AccountCollection allUsers = new AccountCollection();
+		AccountCollection allUsers = AccountCollection.makeAccountCollection();
 		HashMap<Integer, JukeBoxAccount> accounts = allUsers.getAccountCollection();
 		
 		assertEquals("Chris", accounts.get(1).getName());
@@ -62,7 +62,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void accountCollectionUserPlaysTest() {
-		AccountCollection allUsers = new AccountCollection();
+		AccountCollection allUsers = AccountCollection.makeAccountCollection();
 		Song songOne = new Song("Unknown", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		HashMap<Integer, JukeBoxAccount> accounts = allUsers.getAccountCollection();
 		
@@ -153,7 +153,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void dateResetTest() {
-		AccountCollection allUsers = new AccountCollection();
+		AccountCollection allUsers = AccountCollection.makeAccountCollection();
 		HashMap<Integer, JukeBoxAccount> accounts = allUsers.getAccountCollection();
 		LocalDate dateChecker = LocalDate.now();
 		LocalDate theDate = LocalDate.now();

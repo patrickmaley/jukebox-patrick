@@ -21,10 +21,17 @@ import java.util.Map.Entry;
 public class AccountCollection {
 	
 	HashMap<Integer, JukeBoxAccount> accountCollection;
+	private static AccountCollection uniqueAccountCollection;
 	
-	public AccountCollection(){
+	private AccountCollection(){
 		accountCollection = new HashMap<>();
 		createAccounts();
+	}
+	
+	public static AccountCollection makeAccountCollection() {
+		if (uniqueAccountCollection == null)
+			return new AccountCollection();
+		return uniqueAccountCollection;
 	}
 	
 	// hardcodes all the accounts given in the spec and puts them in the HashMap
