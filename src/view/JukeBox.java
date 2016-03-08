@@ -119,7 +119,7 @@ public class JukeBox extends JFrame{
 	private JTextField passwordText = new JTextField();
 	private JTextField titleText = new JTextField("MondoPlayer JukeBox");
 	private JTextArea textField = new JTextArea("Hello, please sign in.");
-	private JTextArea statusField = new JTextArea("| Status: - songs played, - minutes remaining"); 
+	private JTextArea statusField = new JTextArea("Status: - songs played, - minutes remaining"); 
 	
 	private JTextArea playlistList2 = new JTextArea("THIS IS A PLACEHOLDER UNTIL WE TURN IN");
 	private boolean playlistWatcher = true;
@@ -180,7 +180,7 @@ public class JukeBox extends JFrame{
 		passwordLabel.setLabelFor(passwordText);
 		passwordLabel.setFont(displayFont);
 		
-		signInPanel.setPreferredSize(new Dimension(275,200));
+		signInPanel.setPreferredSize(new Dimension(275,275));
 		signInPanel.add(userNameLabel);
 		signInText.setPreferredSize(new Dimension(150, 50));
 		signInPanel.add(signInText);
@@ -346,22 +346,6 @@ public class JukeBox extends JFrame{
 		}
 	}
 	
-	//This adds the second song to the playlist
-	private class SongTwoListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) {
-			if (canPlay( songCollection.get(4))) {
-				userAccount.incrementNumberOfSongsPlayed();
-				userAccount.subtractPlayTime(songCollection.get(4));
-				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
-				
-				if(playlistWatcher){
-					play();
-					playlistWatcher = false;
-				}
-			}
-		}
-	}
 
 	//Adds all the songs to the songCollection
 	private void addSongsToSongCollection() {
