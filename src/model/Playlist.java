@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 /*Author: Patrick Maley && Brian Wehrle
@@ -17,13 +18,21 @@ import java.util.Queue;
  *Class Description: Playlist is a class that we want to refactor. And we probably will for
  *iteration 2. That is all.
  */
-public class Playlist {
+public class Playlist implements Serializable{
 	Queue<Song> playlist;
 	int songCount;
+	private static Playlist uniquePlayCollection;
 	
 	public Playlist(){
 		this.playlist = new LinkedList<>();
 		songCount = 0;
+		
+	}
+	
+	public static Playlist makePlayCollection() {
+		if (uniquePlayCollection == null)
+			return new Playlist();
+		return uniquePlayCollection;
 	}
 	
 	
@@ -47,5 +56,9 @@ public class Playlist {
 	// peeks at the top song on the queue
 	public Song peek(){
 		return this.playlist.peek();
+	}
+	
+	public int getSize(){
+		return this.playlist.size();
 	}
 }

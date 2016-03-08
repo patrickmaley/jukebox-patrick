@@ -2,10 +2,6 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.swing.ListModel;
-import javax.swing.event.ListDataListener;
 
 public class SongCollection implements Serializable{
 
@@ -22,6 +18,7 @@ public class SongCollection implements Serializable{
 			return new SongCollection();
 		return uniqueSongCollection;
 	}
+	
 	private void setUpSongList() {
 		Song songOne = new Song("Kevin MacLeod", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		Song songTwo = new Song("FreePlay Music", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);

@@ -32,6 +32,7 @@ import javax.swing.table.TableRowSorter;
 import model.CardReader;
 import model.JukeBoxAccount;
 import model.Playlist;
+import model.PlaylistTableModel;
 import model.Song;
 import model.SongCollection;
 import model.SongCollectionTableModel;
@@ -99,7 +100,7 @@ public class JukeBox extends JFrame{
 	
 	private HashMap<Integer, Song> songCollection;
 	private CardReader cardReader;
-	private Playlist chosenSongs;
+	//private Playlist chosenSongs;
 	private LocalDate theDate;
 	private JukeBoxAccount userAccount;
 	private JButton addSong = new JButton("Add Song");
@@ -110,8 +111,8 @@ public class JukeBox extends JFrame{
 	private JPanel buttonsPanel = new JPanel();
 	private JPanel signInPanel = new JPanel(new FlowLayout());
 	private JPanel titlePanel = new JPanel();
+	private JPanel songlistPanel = new JPanel(new FlowLayout());
 	private JPanel playlistPanel = new JPanel(new FlowLayout());
-	private JPanel playlistPanel2 = new JPanel(new FlowLayout());
 	private JPanel textPanel = new JPanel(new FlowLayout());
 	private JPanel statusPanel = new JPanel(new FlowLayout());
 	
@@ -128,6 +129,10 @@ public class JukeBox extends JFrame{
 	private TableModel songlistModel = null;
 	private JTable songListTable = null;
 	
+	private Playlist playlistCollection = Playlist.makePlayCollection();
+	private TableModel playlistModel = null;
+	private JTable playlistTable = null;
+	
 	//Initiates the GUI and the player logic
 	public static void main(String[] args) {
 		new JukeBox().setVisible(true);
@@ -137,7 +142,7 @@ public class JukeBox extends JFrame{
 	public JukeBox(){
 		songCollection = new HashMap<>();
 		cardReader = new CardReader();
-		chosenSongs = new Playlist();
+		//chosenSongs = new Playlist();
 		theDate = LocalDate.now();
 		
 		addSongsToSongCollection();
@@ -221,25 +226,33 @@ public class JukeBox extends JFrame{
 		this.songListTable.setRowSorter(rowSorter);
 		songListTable.setPreferredSize(new Dimension(400,490));
 		songListTable.setBackground(new Color(233, 236, 229));
-		playlistPanel.setPreferredSize(new Dimension(500, 520));
-		playlistPanel.setBackground(new Color(59, 58, 54));
-		playlistPanel.setBorder(songlistTitle);
+		songlistPanel.setPreferredSize(new Dimension(500, 520));
+		songlistPanel.setBackground(new Color(59, 58, 54));
+		songlistPanel.setBorder(songlistTitle);
 		
 		//playlistPanel.add(songListTable);
-		playlistPanel.add(songlistScrollPane, BorderLayout.NORTH);
-
-		add(playlistPanel);
+		songlistPanel.add(songlistScrollPane, BorderLayout.NORTH);
+		add(songlistPanel);
 		this.revalidate();
 		
 		
-		
+		//This is the button used to transfer songs to the playlist
 		add(addSong);
-		playlistList2.setSize(50, 100);
-		playlistList2.setFont(playlistFont);
-		playlistList2.setBackground(Color.white);
-		playlistPanel2.add(playlistList2);
-		add(playlistPanel2);
 		
+		//This will display the play list to the user with scrollPane capabilities
+		TitledBorder playlistTitle = BorderFactory.createTitledBorder("Play List");
+		playlistTitle.setTitleColor(Color.white);
+		this.playlistModel = new PlaylistTableModel();
+		this.playlistTable = new JTable(this.playlistModel);
+		JScrollPane playlistScrollPane = new JScrollPane(this.playlistTable);
+		playlistTable.setPreferredSize(new Dimension(400, 490));
+		playlistTable.setBackground(new Color(233, 236, 229));
+		playlistPanel.setPreferredSize(new Dimension(500, 520));
+		playlistPanel.setBackground(new Color(59, 58, 54));
+		playlistPanel.setBorder(playlistTitle);
+		playlistPanel.add(playlistScrollPane, BorderLayout.NORTH);
+		add(playlistPanel);
+		this.revalidate();
 		
 		//Song Panel where the user chooses information
 //		buttonsPanel.add(selectSongOne);
@@ -250,17 +263,40 @@ public class JukeBox extends JFrame{
 		// grey out select song buttons
 //		selectSongOne.setEnabled(false);
 //		selectSongTwo.setEnabled(false);
-		
+		addSong.addActionListener(new addSongListener());
 		signInButton.addActionListener(new SignInListener());
 		signOutButton.addActionListener(new SignOutListener());
 		//selectSongOne.addActionListener(new SongOneListener());
 		//selectSongTwo.addActionListener(new SongTwoListener());
 	}
-	
+	private class addSongListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int songRow = songListTable.getSelectedRow();
+			Song songChosen = songlistCollection.getElementAt(songRow);
+			
+			if (canPlay(songChosen)) {
+				userAccount.incrementNumberOfSongsPlayed();
+				userAccount.subtractPlayTime(songChosen);
+				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
+
+				if(playlistWatcher){
+					play();
+					playlistWatcher = false;
+				}
+			}
+			if(playlistWatcher){
+				play();
+				playlistWatcher = false;
+			}
+		}
+		
+	}
 	//When a song is in the playlist this will play it
 	private void play() {		
 		EndOfSongListener waitForSongEnd = new WaitingForSongToEnd();
-		SongPlayer.playFile(waitForSongEnd, chosenSongs.peek().getPathName());
+		SongPlayer.playFile(waitForSongEnd, playlistCollection.peek().getPathName());
 	}
 	
 	//When a song completes, this event will kick off and either play the
@@ -274,9 +310,9 @@ public class JukeBox extends JFrame{
 				
 				e.printStackTrace();
 			}
-			chosenSongs.removeSong();
+			playlistCollection.removeSong();
 			
-			if (chosenSongs.peek() != null) {
+			if (playlistCollection.peek() != null) {
 				
 				play();
 				
@@ -381,7 +417,8 @@ public class JukeBox extends JFrame{
 		//Checks both the number of times the song has been chosen and the number of times
 		//the user has chosen a song -PM
 		if(song.getNumPlays() < 3 && this.userAccount.canPlaySong()){ 
-			addToPlayList(song);
+			playlistCollection.addSong(song);
+			this.revalidate();
 			song.setNumPlays(song.getNumPlays() + 1);
 			return true;
 			
@@ -403,8 +440,8 @@ public class JukeBox extends JFrame{
 	}
 	
 	//Adds songs to the playlist
-	public void addToPlayList(Song song){
-		chosenSongs.addSong(song);
-	}
+//	public void addToPlayList(Song song){
+//		chosenSongs.addSong(song);
+//	}
 }
 
