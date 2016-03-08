@@ -112,7 +112,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void playListTest() {
-		Playlist userSongs = new Playlist();
+		Playlist userSongs = Playlist.makePlayCollection();
 		
 		Song songOne = new Song("Unknown", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		Song songTwo = new Song("Unknown", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);

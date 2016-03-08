@@ -15,7 +15,7 @@ public class SongCollection implements Serializable{
 	
 	public static SongCollection makeSongCollection() {
 		if (uniqueSongCollection == null)
-			return new SongCollection();
+			uniqueSongCollection = new SongCollection();
 		return uniqueSongCollection;
 	}
 	
@@ -80,5 +80,11 @@ public class SongCollection implements Serializable{
 
 	public Song getElementAt(int index) {
 		return list.get(index);
+	}
+	
+	public void resetSongs(){
+		for (Song song : list) {
+			song.numberOfPlays = 0;
+		}
 	}
 }

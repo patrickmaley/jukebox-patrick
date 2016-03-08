@@ -21,17 +21,16 @@ import java.util.Queue;
 public class Playlist implements Serializable{
 	Queue<Song> playlist;
 	int songCount;
-	private static Playlist uniquePlayCollection;
+	private static Playlist uniquePlayCollection = null;
 	
-	public Playlist(){
+	private Playlist(){
 		this.playlist = new LinkedList<>();
-		songCount = 0;
-		
+		songCount = 0;	
 	}
 	
 	public static Playlist makePlayCollection() {
 		if (uniquePlayCollection == null)
-			return new Playlist();
+			uniquePlayCollection = new Playlist();
 		return uniquePlayCollection;
 	}
 	
@@ -61,4 +60,5 @@ public class Playlist implements Serializable{
 	public int getSize(){
 		return this.playlist.size();
 	}
+	
 }
