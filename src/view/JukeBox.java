@@ -116,8 +116,10 @@ public class JukeBox extends JFrame{
 	private JPanel statusPanel = new JPanel(new FlowLayout());
 	
 	private JTextField signInText = new JTextField();
+
 	private JPasswordField passwordText = new JPasswordField();
 	private final JTextField TITLE_TEXT = new JTextField("MondoPlayer JukeBox");
+
 	
 	private JTextArea textField = new JTextArea("Hello, please sign in.");
 	private JTextArea statusField = new JTextArea("Status: - songs played\n - minutes remaining"); 
@@ -185,6 +187,7 @@ public class JukeBox extends JFrame{
 		passwordLabel.setLabelFor(passwordText);
 		passwordLabel.setFont(displayFont);
 		
+
 		signInPanel.setPreferredSize(STATUS_PANEL_DIMENSION);
 		signInPanel.add(userNameLabel);
 		signInText.setPreferredSize(new Dimension(100, 25));
@@ -356,6 +359,8 @@ public class JukeBox extends JFrame{
 			addSong.setEnabled(false);
 		}
 	}
+
+
 
 	//Determines whether or not the user can play the song and if the local dates have changed
 	public boolean canPlay(Song song){
