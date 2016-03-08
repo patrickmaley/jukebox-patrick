@@ -2,6 +2,7 @@ package model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.event.TableModelListener;
@@ -15,7 +16,7 @@ public class PlaylistTableModel implements TableModel{
 			Arrays.asList(new String[] {"Artist", "Title", "Length"}));
 	
 	public PlaylistTableModel(){
-		this.playCollection = playCollection.makePlayCollection();
+		this.playCollection = Playlist.makePlayCollection();
 		
 	}
 	@Override
@@ -54,25 +55,34 @@ public class PlaylistTableModel implements TableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-//		Song selectedSong = this.playCollection.getElementAt(rowIndex);
-//		switch (columnIndex) {
-//			case 0:
-//				// The first column is name
-//				return selectedSong.getSongName();
-//			case 1:
-//				// The second column is artist
-//				return selectedSong.getArtist();
-//			case 2:
-//				// The third column is length
-//				return selectedSong.getSongLength();
-//		
-//			default:
-//				// This case is unreachable, as our JTable will never use a
-//				// columnIndex value greater than 3
-//				return null;
-//
-//		}
-		return null;
+		int start = 0;
+		Song selectedSong = null;
+		for (Song song : this.playCollection.playlist) {
+			if(start == rowIndex){
+				selectedSong = song;
+				break;
+			}
+			start++;
+		}
+		
+		switch (columnIndex) {
+			case 0:
+				// The first column is name
+				return selectedSong.getSongName();
+			case 1:
+				// The second column is artist
+				return selectedSong.getArtist();
+			case 2:
+				// The third column is length
+				return selectedSong.getSongLength();
+		
+			default:
+				// This case is unreachable, as our JTable will never use a
+				// columnIndex value greater than 3
+				return null;
+
+		}
+	
 	}
 
 	@Override

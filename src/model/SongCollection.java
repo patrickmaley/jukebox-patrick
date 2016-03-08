@@ -44,33 +44,6 @@ public class SongCollection implements Serializable{
 		add(songSeven);
 		add(songEight);
 		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
 		
 		
 	}
@@ -85,5 +58,11 @@ public class SongCollection implements Serializable{
 
 	public Song getElementAt(int index) {
 		return list.get(index);
+	}
+	
+	public void resetSongs(){
+		for (Song song : list) {
+			song.numberOfPlays = 0;
+		}
 	}
 }
