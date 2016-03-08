@@ -4,15 +4,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ListModel;
+import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-public class SongCollectionTableModel implements TableModel{
+public class SongCollectionTableModel implements TableModel, ListModel{
 	
 	private SongCollection songCollection;
 	
 	private static final List<String> COLUMN_NAMES = Collections.unmodifiableList(
-			Arrays.asList(new String[] {"Artist", "Title", "Length"}));
+			Arrays.asList(new String[] {"Artist", "Title", "Length(Sec)"}));
 	
 	public SongCollectionTableModel(){
 		this.songCollection = SongCollection.makeSongCollection();
@@ -88,6 +90,26 @@ public class SongCollectionTableModel implements TableModel{
 
 	@Override
 	public void removeTableModelListener(TableModelListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void addListDataListener(ListDataListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Object getElementAt(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void removeListDataListener(ListDataListener l) {
 		// TODO Auto-generated method stub
 		
 	}

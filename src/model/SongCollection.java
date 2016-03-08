@@ -39,35 +39,6 @@ public class SongCollection implements Serializable{
 		add(songSeven);
 		add(songEight);
 		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
-		add(songOne);
-		add(songTwo);
-		add(songThree);
-		add(songFour);
-		add(songFive);
-		add(songSix);
-		add(songSeven);
-		add(songEight);
-		add(songNine);
-		
-		
 	}
 	private void add(Song song) {
 		list.add(song);
