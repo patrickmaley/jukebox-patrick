@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +10,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 
@@ -29,6 +37,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import model.AccountCollection;
 import model.CardReader;
 import model.JukeBoxAccount;
 import model.Playlist;
@@ -125,6 +134,7 @@ public class JukeBox extends JFrame{
 	private JTextArea playlistList2 = new JTextArea("THIS IS A PLACEHOLDER UNTIL WE TURN IN");
 	private boolean playlistWatcher = true;
 	
+	private AccountCollection accountCollection;// = AccountCollection.makeAccountCollection();
 	private SongCollection songlistCollection = SongCollection.makeSongCollection();
 	private TableModel songlistModel = null;
 	private JTable songListTable = null;
@@ -140,13 +150,14 @@ public class JukeBox extends JFrame{
 	
 	//Constructor to set up the view of the JukeBox and create the necessary objects
 	public JukeBox(){
-		songCollection = new HashMap<>();
-		cardReader = new CardReader();
+		//songCollection = new HashMap<>();
+		//cardReader = new CardReader();
 		//chosenSongs = new Playlist();
 		theDate = LocalDate.now();
 		
-		addSongsToSongCollection();
+		//addSongsToSongCollection();
 		frameProperties();
+		addComponents();
 	}
 	
 	//Sets up the layout of the GUI.
@@ -158,12 +169,97 @@ public class JukeBox extends JFrame{
 		setResizable(false);
 		getContentPane().setBackground(new Color(192, 223, 217));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//Adds all the components to the JFrame -PM
-		addComponents();
 	}	
 
 	//Adds the buttons, textfields, and login screen for the JFrame
 	private void addComponents() {
+		
+		addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int save = JOptionPane.showConfirmDialog(((Component) null), "Save data?", "Do you want to save?", JOptionPane.YES_NO_CANCEL_OPTION);
+				
+				if (save == JOptionPane.YES_OPTION) {
+					try {
+						FileOutputStream file = new FileOutputStream("my.save");
+						ObjectOutputStream out = new ObjectOutputStream(file);
+						//out.writeObject(songlistCollection);
+						//out.writeObject(playlistCollection);
+						System.out.println("Writing object...");
+						out.writeObject(accountCollection);
+						out.close();
+						file.close();
+						file.flush();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+					
+					System.exit(0);
+				} else if (save == JOptionPane.NO_OPTION) {
+					System.exit(0);
+					
+				} else if (save == JOptionPane.CANCEL_OPTION) {
+					
+				}
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				int load = JOptionPane.showConfirmDialog(((Component) null), "Start with previous saved state?", "Do you want to load data?", JOptionPane.YES_NO_CANCEL_OPTION);
+				if (load == JOptionPane.YES_OPTION) {
+					try {
+						FileInputStream input = new FileInputStream("my.save");
+						ObjectInputStream in = new ObjectInputStream(input);
+						
+						//songlistCollection = (SongCollection) in.readObject();
+						//playlistCollection = (Playlist) in.readObject();
+						
+						System.out.println("Reading Object...");
+						accountCollection = (AccountCollection) in.readObject();
+					} catch (ClassNotFoundException c) {
+						c.printStackTrace();
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				} else if (load == JOptionPane.NO_OPTION) {
+					accountCollection = AccountCollection.makeAccountCollection();
+				}
+				
+				cardReader = new CardReader(accountCollection);
+			}
+			
+		});
 		//Set title of the Player
 		Font titleFont = new Font("Bodoni MT Black", 1, 50);
 		titleText.setSize(100, 100);
@@ -268,7 +364,10 @@ public class JukeBox extends JFrame{
 		signOutButton.addActionListener(new SignOutListener());
 		//selectSongOne.addActionListener(new SongOneListener());
 		//selectSongTwo.addActionListener(new SongTwoListener());
+		
+		
 	}
+	
 	private class addSongListener implements ActionListener {
 
 		@Override
@@ -333,11 +432,9 @@ public class JukeBox extends JFrame{
 			int password = Integer.parseInt(passwordText.getText());
 			
 			 if (cardReader.readAccount(signInText.getText(), password)) {
-				// selectSongOne.setEnabled(true);
-				// selectSongTwo.setEnabled(true);
 				 userAccount = cardReader.getCurrentAccount();
 				 textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
-				 statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
+				 statusField.setText("Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
 			 } else {
 				 textField.setText("Account login failed");
 				 JOptionPane.showMessageDialog(null, "Account login failed");
@@ -354,56 +451,10 @@ public class JukeBox extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			userAccount = null;
 			
-			//selectSongOne.setEnabled(false);
-			//selectSongTwo.setEnabled(false);
-			
 			textField.setText("Successfully signed out");
-			statusField.setText("| Status: -, ----");
+			statusField.setText("Status: -, ----");
 		}
 		
-	}
-
-	//This adds the first song to the playlist
-	private class SongOneListener implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			Song songOne = songCollection.get(7);
-			if (canPlay(songOne)) {
-				userAccount.incrementNumberOfSongsPlayed();
-				userAccount.subtractPlayTime(songOne);
-				statusField.setText("| Status: " + userAccount.getNumberOfSongsPlayed() + " songs played, " + userAccount.getPlayTime() / 60 + " minutes remaining");
-
-				if(playlistWatcher){
-					play();
-					playlistWatcher = false;
-				}
-			}
-		}
-	}
-	
-
-	//Adds all the songs to the songCollection
-	private void addSongsToSongCollection() {
-		Song songOne = new Song("Kevin MacLeod", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
-		Song songTwo = new Song("FreePlay Music", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);
-		Song songThree = new Song("Sun Microsystems", "Flute", "./songfiles/flute.aif", 5);
-		Song songFour = new Song("Unknown", "Loping Flute", "./songfiles/LopingSting.mp3", 4);
-		Song songFive = new Song("Unknown", "Space Music", "./songfiles/spacemusic.au", 6);
-		Song songSix = new Song("FreePlay Music", "Swing Cheese", "./songfiles/SwingCheese.mp3", 15);
-		Song songSeven = new Song("Microsoft", "TaDa", "./songfiles/tada.wav", 2);
-		Song songEight = new Song("Kevin MacLeod", "TheCurtainRises", "./songfiles/TheCurtainRises.mp3", 28);
-		Song songNine = new Song("Kevin MacLeod", "Untameable Fire", "./songfiles/UntameableFire.mp3", 282);
-		
-		this.songCollection.put(1, songOne);
-		this.songCollection.put(2, songTwo);
-		this.songCollection.put(3, songThree);
-		this.songCollection.put(4, songFour);
-		this.songCollection.put(5, songFive);
-		this.songCollection.put(6, songSix);
-		this.songCollection.put(7, songSeven);
-		this.songCollection.put(8, songEight);
-		this.songCollection.put(9, songNine);
 	}
 
 	//Determines whether or not the user can play the song and if the local dates have changed
@@ -439,9 +490,5 @@ public class JukeBox extends JFrame{
 		
 	}
 	
-	//Adds songs to the playlist
-//	public void addToPlayList(Song song){
-//		chosenSongs.addSong(song);
-//	}
 }
 

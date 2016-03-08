@@ -21,8 +21,8 @@ public class CardReader {
 	private JukeBoxAccount currentAccount;
 	private AccountCollection accountCollection;
 	
-	public CardReader(){
-		accountCollection = AccountCollection.makeAccountCollection();
+	public CardReader(AccountCollection accountCollection){
+		this.accountCollection = accountCollection;
 	}
 	
 	//Finds the account in the accountCollection by matching the passwords

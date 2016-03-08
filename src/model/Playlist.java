@@ -19,6 +19,10 @@ import java.util.Queue;
  *iteration 2. That is all.
  */
 public class Playlist implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8812361899528992300L;
 	Queue<Song> playlist;
 	int songCount;
 	private static Playlist uniquePlayCollection;
