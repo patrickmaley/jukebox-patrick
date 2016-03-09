@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -18,7 +19,12 @@ import java.util.Map.Entry;
  *Class Description: AccountCollection class hardcodes the accounts available to the user.
  *It also can reset the plays for all accounts when the date changes.
  */
-public class AccountCollection {
+public class AccountCollection implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -844659374983536693L;
 	
 	HashMap<Integer, JukeBoxAccount> accountCollection;
 	private static AccountCollection uniqueAccountCollection;
@@ -30,7 +36,7 @@ public class AccountCollection {
 	
 	public static AccountCollection makeAccountCollection() {
 		if (uniqueAccountCollection == null)
-			return new AccountCollection();
+			uniqueAccountCollection = new AccountCollection();
 		return uniqueAccountCollection;
 	}
 	

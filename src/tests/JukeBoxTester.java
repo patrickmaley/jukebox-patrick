@@ -15,7 +15,7 @@ import model.AccountCollection;
 import model.JukeBoxAccount;
 import model.Playlist;
 import model.Song;
-
+import model.SongCollection;
 import model.CardReader;
 
 /*Author: Patrick Maley && Brian Wehrle
@@ -112,7 +112,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void playListTest() {
-		Playlist userSongs = Playlist.makePlayCollection();
+		Playlist userSongs = Playlist.makePlayCollection(null);
 		
 		Song songOne = new Song("Unknown", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
 		Song songTwo = new Song("Unknown", "Determined Tumbao", "./songfiles/DeterminedTumbao.mp3", 20);
@@ -135,20 +135,44 @@ public class JukeBoxTester {
 		userSongs.addSong(songNine);
 		
 		assertEquals(9, userSongs.getSongCount());
+		assertEquals(9, userSongs.getSize());
+		assertEquals(9, userSongs.getPlaylist().size());
 		assertEquals(songOne, userSongs.removeSong());
 		
 		assertEquals(songTwo, userSongs.peek());
+		
+		Playlist userSongs2 = Playlist.makePlayCollection(userSongs);
+		
+		
+		
+		
+		assertEquals(8, userSongs2.getSongCount());
+		assertEquals(songTwo, userSongs2.removeSong());
+		
+		assertEquals(songThree, userSongs2.peek());
 	}
 	
 	@Test
 	public void CardReaderTest() {
-		CardReader cardReader = new CardReader();
+		CardReader cardReader = CardReader.makeCardReader(AccountCollection.makeAccountCollection());
 		
 		assertEquals(true, cardReader.readAccount("Chris", 1));
+		
 		assertEquals(false, cardReader.readAccount("Chris", 22));
 		
 		cardReader.readAccount("Chris", 1234); // not an existing password
 		assertEquals(null, cardReader.getCurrentAccount());
+		
+		AccountCollection accounts = cardReader.getAccountCollection();
+		assertTrue(accounts != null);
+		
+		cardReader.readAccount("Chris", 1);
+		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris", 1);
+		assertTrue(chrisAccount.getName().compareTo(cardReader.getCurrentAccount().getName()) == 0);
+		cardReader.signOut();
+		assertEquals(null, cardReader.getCurrentAccount());
+
+
 	}
 	
 	@Test
@@ -170,4 +194,26 @@ public class JukeBoxTester {
 		assertEquals(0, accounts.get(1).getNumberOfSongsPlayed());
 		assertTrue(0 == accounts.get(1).getNumberOfSongsPlayed());
 	}
+	
+	@Test
+	public void SongCollectionTest() {
+		SongCollection songs = SongCollection.makeSongCollection();
+		
+		Song songOne = new Song("Kevin MacLeod", "Danse Macabre Violin Hook", "./songfiles/DanseMacabreViolinHook.mp3", 34);
+	
+		
+		assertEquals(9, songs.getSize());
+		assertEquals(songOne.toString() ,songs.getElementAt(0).toString());
+		assertEquals(songOne.getArtist(),songs.getElementAt(0).getArtist());
+		songs.getElementAt(0).setNumPlays(3);
+		
+		assertEquals(3, songs.getElementAt(0).getNumPlays());
+		
+		songs.resetSongs();
+		
+		assertEquals(0, songs.getElementAt(0).getNumPlays());
+		
+	}
+	
+	
 }

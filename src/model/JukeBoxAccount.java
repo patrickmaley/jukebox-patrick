@@ -14,7 +14,12 @@ package model;
  *Class Description: JukeBoxAccount holds the information of each individual account. It 
  *is mainly getters and setters that hold the required information for the controller.
  */
-public class JukeBoxAccount {
+public class JukeBoxAccount implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -18876558248125584L;
+	
 	private int id;
 	private int playtime;
 	private int numberOfSongsPlayed;

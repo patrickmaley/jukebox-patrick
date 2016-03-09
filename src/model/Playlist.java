@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 /*Author: Patrick Maley && Brian Wehrle
  * 
@@ -19,8 +20,13 @@ import java.util.Queue;
  *iteration 2. That is all.
  */
 public class Playlist implements Serializable{
-	Queue<Song> playlist;
-	int songCount;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8812361899528992300L;
+	
+	private Queue<Song> playlist;
+	private int songCount;
 	private static Playlist uniquePlayCollection = null;
 	
 	private Playlist(){
@@ -28,9 +34,11 @@ public class Playlist implements Serializable{
 		songCount = 0;	
 	}
 	
-	public static Playlist makePlayCollection() {
-		if (uniquePlayCollection == null)
+	public static Playlist makePlayCollection(Playlist savedList) {
+		if (uniquePlayCollection == null && savedList == null)
 			uniquePlayCollection = new Playlist();
+		else if(savedList != null)
+			uniquePlayCollection = savedList;
 		return uniquePlayCollection;
 	}
 	
@@ -59,6 +67,10 @@ public class Playlist implements Serializable{
 	
 	public int getSize(){
 		return this.playlist.size();
+	}
+	
+public Queue getPlaylist(){
+		return this.playlist;
 	}
 	
 }

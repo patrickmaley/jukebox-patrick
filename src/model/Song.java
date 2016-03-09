@@ -14,7 +14,12 @@ package model;
  *Class Description: Song holds the information of each song object. It is mainly getters and 
  *setters which have all the hardcoded information.
  */
-public class Song {
+public class Song implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6866369057112030883L;
+	
 	String songName;
 	String artist;
 	int length;
@@ -61,7 +66,7 @@ public class Song {
 	
 	@Override
 	public String toString(){
-		return null;
+		return "Song name: " + songName + "\nArtist: " + artist + "\nnumPlays: " + numberOfPlays;
 	}
 	
 	

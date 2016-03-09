@@ -5,6 +5,11 @@ import java.util.ArrayList;
 
 public class SongCollection implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7242006385882812861L;
+	
 	public ArrayList<Song> list;
 	private static SongCollection uniqueSongCollection;
 	

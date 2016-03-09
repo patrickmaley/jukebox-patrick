@@ -1,6 +1,6 @@
 package view;
 
-import view.JukeBox;
+import Controller.JukeBox;
 
 public class JukeBoxGUI {
 	//Initiates the GUI and the player logic

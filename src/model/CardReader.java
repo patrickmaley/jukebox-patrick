@@ -16,13 +16,25 @@ package model;
  *If so it returns true and sets the currentAccount to true.
  */
 
-public class CardReader {
+public class CardReader implements java.io.Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7557889148923487609L;
+	
+	private static CardReader uniqueCardReader;
 	private JukeBoxAccount currentAccount;
 	private AccountCollection accountCollection;
 	
-	public CardReader(){
-		accountCollection = AccountCollection.makeAccountCollection();
+	private CardReader(AccountCollection accountCollection){
+		this.accountCollection = accountCollection;
+	}
+	
+	public static CardReader makeCardReader(AccountCollection accountCollection) {
+		if (uniqueCardReader == null)
+			uniqueCardReader = new CardReader(accountCollection);
+		return uniqueCardReader;
 	}
 	
 	//Finds the account in the accountCollection by matching the passwords
@@ -47,8 +59,11 @@ public class CardReader {
 	
 	// Returns the account that was most recently read.
 	// Must call readAccount to intialize currentAccount
-	public JukeBoxAccount getCurrentAccount(){
-		
+	public JukeBoxAccount getCurrentAccount(){	
 		return this.currentAccount;
+	}
+	
+	public void signOut() {
+		this.currentAccount = null;
 	}
 }

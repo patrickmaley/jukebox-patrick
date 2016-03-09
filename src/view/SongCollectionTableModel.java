@@ -1,4 +1,4 @@
-package model;
+package view;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,6 +8,9 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
+
+import model.Song;
+import model.SongCollection;
 
 public class SongCollectionTableModel implements TableModel, ListModel{
 	

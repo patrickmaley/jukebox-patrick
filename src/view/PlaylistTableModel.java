@@ -1,16 +1,34 @@
-package model;
+package view;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javax.swing.ListModel;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+import model.Playlist;
+import model.Song;
+import model.SongCollection;
+
+
+
+
+/**
+ * 
+ * @author Brian Wehrle
+ * @author Patrick Maley
+ * 
+ * Class Description: PlayListTableModel adapts our Playlist class to be displayed as a 
+ * TableModel object. It provides all the necessary methods to implement TableModel.
+ */
 public class PlaylistTableModel implements TableModel, ListModel{
+
 	
 	private Playlist playCollection;
 	private SongCollection songCollection;
@@ -18,24 +36,48 @@ public class PlaylistTableModel implements TableModel, ListModel{
 			Arrays.asList(new String[] {"Artist", "Title", "Length"}));
 	
 	public PlaylistTableModel(){
-		this.playCollection = Playlist.makePlayCollection();
+		this.playCollection = Playlist.makePlayCollection(null);
 		
 	}
+	/** Retrieves the number of rows in the Table.
+	 * 
+	 * @return The number of rows.
+	 */
 	@Override
 	public int getRowCount() {
 		return this.playCollection.getSize();
 	}
-
+	
+	/** Retrieves the number of columns in the Table.
+	 * 
+	 * @return The number of columns.
+	 */
 	@Override
 	public int getColumnCount() {
 		return COLUMN_NAMES.size();
 	}
 
+	/**
+	 * Gets the column name at the specified index.
+	 * 
+	 *  @param columnIndex
+	 *  	The index of the column.
+	 *  
+	 *  @return The name of the column at the specified index.
+	 */
 	@Override
 	public String getColumnName(int columnIndex) {
 		return COLUMN_NAMES.get(columnIndex);
 	}
 
+	/**
+	 * Gets the class of the elements held in the specified column.
+	 * 
+	 * @param columnIndex: 
+	 * 		The index of the column
+	 * 
+	 * @return The class of the elements held in the column
+	 */
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -50,16 +92,33 @@ public class PlaylistTableModel implements TableModel, ListModel{
 	}
 	}
 
+	/**
+	 * Determines if the cell is editable at the specified cell.
+	 * 
+	 * @param rowIndex
+	 * 		The index of the row of the cell.
+	 * 
+	 * @param columnIndex
+	 * 		The index of the column of the cell.
+	 * 
+	 * @return Boolean stating if the cell is editable.
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return false;
 	}
 
+	/**
+	 * Retrieves the value at the specified row and column.
+	 * 
+	 * @param 
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		int start = 0;
 		Song selectedSong = null;
-		for (Song song : this.playCollection.playlist) {
+		LinkedList<Song> list = (LinkedList<Song>) this.playCollection.getPlaylist();
+		for (Song song : list) {
 			if(start == rowIndex){
 				selectedSong = song;
 				break;
