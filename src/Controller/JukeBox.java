@@ -461,7 +461,7 @@ public class JukeBox extends JFrame{
 		
 		//Checks both the number of times the song has been chosen and the number of times
 		//the user has chosen a song and if the user has any playtime left -PM
-		if(song.getNumPlays() < 3 && this.userAccount.canPlaySong() && this.userAccount.getPlayTime() > 0){ 
+		if(song.getNumPlays() < 3 && this.userAccount.canPlaySong() && this.userAccount.getPlayTime() - song.getSongLength() > 0){ 
 			playlistCollection.addSong(song);
 			playlistTable.repaint();
 			song.setNumPlays(song.getNumPlays() + 1);
