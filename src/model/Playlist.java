@@ -4,25 +4,15 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-/*Author: Patrick Maley && Brian Wehrle
+/**@author Brian Wehrle
+ * @author Patrick Maley
  * 
- *Class: CSC 335
- * 
- *Project: JukeBox Iteration 1
- * 
- *Date: February 29, 2016
- *
- *Professor: Dr. Mercer
- *
- *Section Lead: Cindy Trieu
- *
- *Class Description: Playlist is a class that we want to refactor. And we probably will for
- *iteration 2. That is all.
+ *Class Description: The object that stores the songs being played.
+ * Songs are played in a FIFO order, in typical Queue fashion. Supports
+ * standard Queue operations like add, remove, and peek. 
  */
 public class Playlist implements Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = -8812361899528992300L;
 	
 	private Queue<Song> playlist;
@@ -33,7 +23,13 @@ public class Playlist implements Serializable{
 		this.playlist = new LinkedList<>();
 		songCount = 0;	
 	}
-	
+	/**
+	 * Singleton implementation. If uniquePlayCollection is null,
+	 * it constructs a new one. If not, it returns uniquePlayCollection.
+	 * 
+	 * @return The unique instance of this object.
+	 */
+
 	public static Playlist makePlayCollection(Playlist savedList) {
 		if (uniquePlayCollection == null && savedList == null)
 			uniquePlayCollection = new Playlist();
@@ -42,29 +38,50 @@ public class Playlist implements Serializable{
 		return uniquePlayCollection;
 	}
 	
-	
-	// adds a song to the playlist, and increments songCount
+	/**
+	 * Adds a song to the playlist, and increments songCount.
+	 * 
+	 * @param song
+	 * 		The song to be added.
+	 */
 	public void addSong(Song song){
 		this.playlist.add(song);
 		songCount++;
 	}
 	
-	// removes a song from the playlist, and decrements songCount
+	/**
+	 * Remove sa song from the playlist, and decrements songCount.
+	 * 
+	 * @return The song that was removed.
+	 */
 	public Song removeSong(){
 		songCount--;
 	    return this.playlist.remove();
 	}
 
-	// returns songCount
+	/**
+	 * Returns the number of songs in the playlist.
+	 * 
+	 * @return The number of songs in the playlist.
+	 */
 	public int getSongCount(){
 		return this.songCount;
 	}
 	
-	// peeks at the top song on the queue
+	/**
+	 * Looks at the song at the top of the queue.
+	 * 
+	 * @return The song at the top of the queue.
+	 */
 	public Song peek(){
 		return this.playlist.peek();
 	}
 	
+	/**
+	 * Gets the size of the playlist.
+	 * 
+	 * @return The size of the playlist.
+	 */
 	public int getSize(){
 		return this.playlist.size();
 	}

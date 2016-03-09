@@ -1,15 +1,6 @@
 package model;
-/*Author: Patrick Maley && Brian Wehrle
- * 
- *Class: CSC 335
- * 
- *Project: JukeBox Iteration 1
- * 
- *Date: February 29, 2016
- *
- *Professor: Dr. Mercer
- *
- *Section Lead: Cindy Trieu
+/**@author Brian Wehrle
+ * @author Patrick Maley
  *
  *Class Description: CardReader creates and Accountcollection object to determine
  *whether or not the login information in the JukeBox controller is in the hashmap.
@@ -31,13 +22,31 @@ public class CardReader implements java.io.Serializable{
 		this.accountCollection = accountCollection;
 	}
 	
+	/**
+	 * Singleton implementation. If uniqueCardReader is null,
+	 * it constructs a new one. If not, it returns uniqueCardReader.
+	 * 
+	 * @param accountCollection
+	 * 		the AccountCollection to read accounts from.
+	 * @return The unique instance of this object.
+	 */
 	public static CardReader makeCardReader(AccountCollection accountCollection) {
 		if (uniqueCardReader == null)
 			uniqueCardReader = new CardReader(accountCollection);
 		return uniqueCardReader;
 	}
 	
-	//Finds the account in the accountCollection by matching the passwords
+	/**
+	 * Reads and finds the account with the specified name by matching the passwords.
+	 * 
+	 * @param accountName
+	 * 		The name of the account to be found.
+	 * 
+	 * @param password
+	 * 		The password of the account.
+	 * @return
+	 * 		True if the account was found, false if not.
+	 */
 	public boolean readAccount(String accountName, int password){				
 		currentAccount = accountCollection.accountCollection.get(password);
 		
@@ -51,18 +60,31 @@ public class CardReader implements java.io.Serializable{
 		} else
 			return false;
 	}
-	
-	//Returns the accountcollection to the JukeBox
+	/**
+	 * Returns the accountCollection to the JukeBox.
+	 * 
+	 * @return the accountCollection to the JukeBox.
+	 */
 	public AccountCollection getAccountCollection(){		
 		return this.accountCollection;
 	}
 	
+	/**
+	 * Returns the account that was most recently read.
+	 * Must call readAccount to intitialize currentAccount.
+	 * 
+	 * @return The account that was most recently read.
+	 */
 	// Returns the account that was most recently read.
 	// Must call readAccount to intialize currentAccount
 	public JukeBoxAccount getCurrentAccount(){	
 		return this.currentAccount;
 	}
 	
+	/**
+	 * Signs out the current account by setting to null.
+	 * 
+	 */
 	public void signOut() {
 		this.currentAccount = null;
 	}

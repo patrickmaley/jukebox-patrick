@@ -1,23 +1,12 @@
 package model;
-/*Author: Patrick Maley && Brian Wehrle
+/**@author Brian Wehrle
+ * @author Patrick Maley
  * 
- *Class: CSC 335
- * 
- *Project: JukeBox Iteration 1
- * 
- *Date: February 29, 2016
- *
- *Professor: Dr. Mercer
- *
- *Section Lead: Cindy Trieu
- *
  *Class Description: Song holds the information of each song object. It is mainly getters and 
  *setters which have all the hardcoded information.
  */
 public class Song implements java.io.Serializable{
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 6866369057112030883L;
 	
 	String songName;
@@ -26,6 +15,21 @@ public class Song implements java.io.Serializable{
 	int numberOfPlays;
 	String pathName;
 	
+	/**
+	 * Constructor for the song. 
+	 * 
+	 * @param artist
+	 * 		The artist of the song.
+	 * 
+	 * @param song
+	 * 		The name of the song.
+	 * 
+	 * @param path
+	 * 		The file path to the song.
+	 * 
+	 * @param length
+	 * 		The length of the song, in seconds.
+	 */
 	public Song(String artist, String song, String path, int length){
 		this.artist = artist;
 		this.songName = song;
@@ -34,36 +38,66 @@ public class Song implements java.io.Serializable{
 		this.pathName = path;
 	}
 	
-	// sets of the number of plays
+	/**
+	 * Sets the number of plays of the song.
+	 * 
+	 * @param num
+	 * 		The number of plays.
+	 */
 	public void setNumPlays(int num){
 		this.numberOfPlays = num;
 	}
 	
-	// returns the number of plays
+	/**
+	 * Returns the number of plays of the song.
+	 * 
+	 * @return the number of plays.
+	 */
 	public int getNumPlays(){
 		return this.numberOfPlays;
 	}
 	
-	//returns the name of the song
+	/**
+	 * Returns the name of the song.
+	 * 
+	 * @return The name of the song.
+	 */
 	public String getSongName(){
 		return this.songName;
 	}
 	
-	// returns the path variable to the song
+	/**
+	 * Returns the path variable of the song.
+	 * 
+	 * @return The path variable of the song.
+	 */
 	public String getPathName(){
 		return this.pathName;
 	}
 	
-	// returns the length of the song
+	/**
+	 * Returns the length of the song in seconds.
+	 * 
+	 * @return The length of the song.
+	 */
 	public int getSongLength() {
 		return length;
 	}
 	
-	// return the artist
+	/**
+	 * Returns the name of the artist of the song.
+	 * 
+	 * @return The name of the artist of the song.
+	 */
 	public String getArtist(){
 		return this.artist;
 	}
 	
+	/**
+	 * Returns a String that has the name of the song, the artist, and the number of plays of the song.
+	 * 
+	 * @return The toString representation of the song.
+	 */
 	@Override
 	public String toString(){
 		return "Song name: " + songName + "\nArtist: " + artist + "\nnumPlays: " + numberOfPlays;

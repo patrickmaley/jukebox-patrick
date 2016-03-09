@@ -167,7 +167,7 @@ public class JukeBoxTester {
 		assertTrue(accounts != null);
 		
 		cardReader.readAccount("Chris", 1);
-		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris", 1);
+		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris");
 		assertTrue(chrisAccount.getName().compareTo(cardReader.getCurrentAccount().getName()) == 0);
 		cardReader.signOut();
 		assertEquals(null, cardReader.getCurrentAccount());

@@ -4,26 +4,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
-/*Author: Patrick Maley && Brian Wehrle
- * 
- *Class: CSC 335
- * 
- *Project: JukeBox Iteration 1
- * 
- *Date: February 29, 2016
- *
- *Professor: Dr. Mercer
- *
- *Section Lead: Cindy Trieu
+/**@author Brian Wehrle
+ * @author Patrick Maley
  *
  *Class Description: AccountCollection class hardcodes the accounts available to the user.
  *It also can reset the plays for all accounts when the date changes.
  */
 public class AccountCollection implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -844659374983536693L;
 	
 	HashMap<Integer, JukeBoxAccount> accountCollection;
@@ -34,6 +22,12 @@ public class AccountCollection implements Serializable{
 		createAccounts();
 	}
 	
+	/**
+	 * Singleton implementation. If uniqueAccountCollection is null,
+	 * it constructs a new one. If not, it returns uniqueAccountCollection.
+	 * 
+	 * @return The unique instance of this object.
+	 */
 	public static AccountCollection makeAccountCollection() {
 		if (uniqueAccountCollection == null)
 			uniqueAccountCollection = new AccountCollection();
@@ -42,20 +36,20 @@ public class AccountCollection implements Serializable{
 	
 	// hardcodes all the accounts given in the spec and puts them in the HashMap
 	private void createAccounts() {
-		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris", 1);
-		JukeBoxAccount devonAccount = new JukeBoxAccount("Devon", 2);
-		JukeBoxAccount riverAccount = new JukeBoxAccount("River", 3);
-		JukeBoxAccount ryanAccount = new JukeBoxAccount("Ryan", 4);
+		JukeBoxAccount chrisAccount = new JukeBoxAccount("Chris");
+		JukeBoxAccount devonAccount = new JukeBoxAccount("Devon");
+		JukeBoxAccount riverAccount = new JukeBoxAccount("River");
+		JukeBoxAccount ryanAccount = new JukeBoxAccount("Ryan");
 		
-		//Not sure if the keys should just be arbitrary values and the
-		//passwords should be a field in the accounts that we could encrypt
 		accountCollection.put(1, chrisAccount);
 		accountCollection.put(22, devonAccount);
 		accountCollection.put(333, riverAccount);
 		accountCollection.put(4444, ryanAccount);
 	}
 
-	// Resets the plays of all the accounts in the accountCollection. 
+	/**
+	 * Resets the plays of all the accounts in the account collection. 
+	 */
 	public void resetPlays() {
 		Iterator<Entry<Integer, JukeBoxAccount>> itr = this.accountCollection.entrySet().iterator();
 		while(itr.hasNext()){
@@ -63,7 +57,12 @@ public class AccountCollection implements Serializable{
 		}
 	}
 	
-	// Returns the HashMap of accounts
+	/**
+	 * Returns the HashMap of the accountCollection.
+	 * 
+	 * @return The HashMap of the accountCollection.
+	 * 
+	 */
 	public HashMap<Integer, JukeBoxAccount> getAccountCollection(){
 		return this.accountCollection;
 	}
