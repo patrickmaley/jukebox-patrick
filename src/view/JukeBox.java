@@ -51,49 +51,14 @@ import songplayer.EndOfSongEvent;
 import songplayer.EndOfSongListener;
 import songplayer.SongPlayer;
 
-/*Iteration 2:
- * TODO:
- * 1.GUI: -Patrick 
- * 		-Create a view package
- * 		-Change size of the window.
- * 		-Add JLists
- * 		-Allow multiple users to login
- * 		-select songs
- * 		-maintain a playlist of songs 
- * 		-maintain a songlist of songs to choose from
- * 		-JPasswordField into view
- * 2.Persistence:
- * 		-writing serialized objects to disk - DO THIS LAST?
- * 		-A lot 
- * 3. Implement Design patterns: Use the following design patterns - Brian
- * 		-Adapter: two collections are adapted to JTable and JList with the 
- * 				interfaces TableModel and ListModel
- * 		-Adapter: Have your WindowListener extend WindowAdapter
- * 		-SingleTon: Two collections must be singletons so we dont have two different versionsof songs or accounts
- * 		-Decorator: Decorate your Jtable and JList with a JScrollPane
- * 		-Decorator: Decorate to classes with others to persist data
- * 
- * 4. Playlist can be sorted by artists
- * 
- * Iteration 1:
- * TODO: 
- * 1. DONE- Complete authentication for usernames and password. And get testing code for it
- * 2. DONE- Create functionality for the 3 song limit
- * 3. DONE- Queue for playlist functionality
- * 4. DONE- Create local date variable, implement it and Reset playtime and songs played variables with local dates
- * 5. DONE- Tests for playlimit time and amount of times played for users and songs
- * 6. DONE- Finish song class with pathnames variable.
- * 7. In Progress- Work on the GUI
- * 		-Have the general view for iteration 1. 
- * 8. DONE: Implement listeners for the buttons
- */
-/*Author: Patrick Maley && Brian Wehrle
+/**@author Brian Wehrle (brianwehrle@email.arizona.edu)
+ * @author Patrick Maley (pmaley@email.arizona.edu)
  * 
  *Class: CSC 335
  * 
- *Project: JukeBox Iteration 1
+ *Project: JukeBox Iteration 2
  * 
- *Date: February 29, 2016
+ *Date: March 8th, 2016
  *
  *Professor: Dr. Mercer
  *
@@ -155,22 +120,6 @@ public class JukeBox extends JFrame{
 	public JukeBox(){
 		theDate = LocalDate.now();
 		frameProperties();
-		addComponents();
-	}
-	
-	//Sets up the layout of the GUI.
-	private void frameProperties() {
-		setTitle("MondoPlayer JukeBox");
-		setLayout(new FlowLayout());
-		setSize(1125, 725);
-		setLocation(0, 0);
-		//setResizable(false);
-		getContentPane().setBackground(new Color(192, 223, 217));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}	
-
-	//Adds the buttons, textfields, and login screen for the JFrame
-	private void addComponents() {
 		
 		addWindowListener(new WindowListener() {
 
@@ -194,9 +143,10 @@ public class JukeBox extends JFrame{
 					try {
 						FileOutputStream file = new FileOutputStream("my.save");
 						ObjectOutputStream out = new ObjectOutputStream(file);
-						out.writeObject(songlistCollection);
-						out.writeObject(playlistCollection);
-						out.writeObject(accountCollection);
+						out.writeObject(JukeBox.this.songlistCollection);
+						out.writeObject(JukeBox.this.playlistCollection);
+						out.writeObject(JukeBox.this.accountCollection);
+						out.writeObject(JukeBox.this.cardReader);
 						out.close();
 						file.close();
 						file.flush();
@@ -207,8 +157,6 @@ public class JukeBox extends JFrame{
 					System.exit(0);
 				} else if (save == JOptionPane.NO_OPTION) {
 					System.exit(0);
-					
-				} else if (save == JOptionPane.CANCEL_OPTION) {
 					
 				}
 			}
@@ -239,9 +187,10 @@ public class JukeBox extends JFrame{
 						FileInputStream input = new FileInputStream("my.save");
 						ObjectInputStream in = new ObjectInputStream(input);
 						
-						songlistCollection = (SongCollection) in.readObject();
-						playlistCollection = (Playlist) in.readObject();
-						accountCollection = (AccountCollection) in.readObject();
+						JukeBox.this.songlistCollection = (SongCollection) in.readObject();
+						JukeBox.this.playlistCollection = (Playlist) in.readObject();
+						JukeBox.this.accountCollection = (AccountCollection) in.readObject();
+						JukeBox.this.cardReader = (CardReader) in.readObject();
 						
 						in.close();
 						input.close();
@@ -257,20 +206,46 @@ public class JukeBox extends JFrame{
 					}
 					
 				} else if (load == JOptionPane.NO_OPTION) {
-					accountCollection = AccountCollection.makeAccountCollection();
-					songlistCollection = SongCollection.makeSongCollection();
-					playlistCollection = Playlist.makePlayCollection();
-				}
+					JukeBox.this.accountCollection = AccountCollection.makeAccountCollection();
+					JukeBox.this.songlistCollection = SongCollection.makeSongCollection();
+					JukeBox.this.playlistCollection = Playlist.makePlayCollection();
+					JukeBox.this.cardReader = CardReader.makeCardReader(accountCollection);
+				}				
+				addComponents();
+				// sign in the previously loaded account
+				if (cardReader.getCurrentAccount() != null) {
+					userAccount = cardReader.getCurrentAccount();
+					textField.setText("Welcome, "  + cardReader.getCurrentAccount().getName());
+					statusField.setText("Status: " + userAccount.getNumberOfSongsPlayed() + " songs played \n");
+				 	statusField.append(userAccount.getPlayTime() / 60 + " minutes remaining");
+				 	addSong.setEnabled(true);
+				 	playlistWatcher = false;
+				}			
+				
+				playlistTable.repaint();
 				
 				if (JukeBox.this.playlistCollection.peek() != null){
-					playlistTable.repaint();
 					play();
-				}
-				
-				cardReader = new CardReader(accountCollection);
+				}				
 			}
 			
 		});
+	}
+	
+	//Sets up the layout of the GUI.
+	private void frameProperties() {
+		setTitle("MondoPlayer JukeBox");
+		setLayout(new FlowLayout());
+		setSize(1125, 725);
+		setLocation(0, 0);
+		//setResizable(false);
+		getContentPane().setBackground(new Color(192, 223, 217));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}	
+
+	//Adds the buttons, textfields, and login screen for the JFrame
+	private void addComponents() {
+		
 		//Set title of the Player
 		Font titleFont = new Font("Bodoni MT Black", 1, 35);
 		TITLE_TEXT.setSize(65, 65);
@@ -290,8 +265,7 @@ public class JukeBox extends JFrame{
 		userNameLabel.setFont(displayFont);
 		passwordLabel.setForeground(new Color(59, 58, 54));
 		passwordLabel.setLabelFor(passwordText);
-		passwordLabel.setFont(displayFont);
-		
+		passwordLabel.setFont(displayFont);		
 
 		signInPanel.setPreferredSize(STATUS_PANEL_DIMENSION);
 		signInPanel.add(userNameLabel);
@@ -361,7 +335,7 @@ public class JukeBox extends JFrame{
 		playlistPanel.setBorder(playlistTitle);
 		playlistPanel.add(playlistScrollPane, BorderLayout.NORTH);
 		add(playlistPanel);
-		this.revalidate();
+		this.revalidate();	
 		
 		addSong.addActionListener(new addSongListener());
 		signInButton.addActionListener(new SignInListener());
@@ -381,18 +355,19 @@ public class JukeBox extends JFrame{
 				userAccount.subtractPlayTime(songChosen);
 				statusField.setText("Status: " + userAccount.getNumberOfSongsPlayed() + " songs played \n" + userAccount.getPlayTime() / 60 + " minutes remaining");
 
-				if(playlistWatcher){
+				if (playlistWatcher){
 					play();
 					playlistWatcher = false;
 				}
 			}
-			if(playlistWatcher){
+			if (playlistWatcher){
 				play();
 				playlistWatcher = false;
 			}
 		}
 		
 	}
+	
 	//When a song is in the playlist this will play it
 	private void play() {		
 		EndOfSongListener waitForSongEnd = new WaitingForSongToEnd();
@@ -447,14 +422,22 @@ public class JukeBox extends JFrame{
 	private class SignOutListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			userAccount = null;	
+			userAccount = null;
+			cardReader.signOut();
 			textField.setText("Successfully signed out");
 			statusField.setText("Status: - \n, ----");
 			addSong.setEnabled(false);
 		}
 	}
 
-	//Determines whether or not the user can play the song and if the local dates have changed
+	/**Determines whether or not the user can play the song and if the local dates have changed.
+	 * If the song is able to be played, it adds it to the playlist and updates the JTable.
+	 * 
+	 * @param song
+	 *		The song object that is being added to the playlist.
+	 * @return
+	 * 		A boolean indicating if the song is able to be played.
+	 */
 	public boolean canPlay(Song song){
 		LocalDate dateChecker = LocalDate.now();
 		if(this.theDate.getDayOfYear() < dateChecker.getDayOfYear()){

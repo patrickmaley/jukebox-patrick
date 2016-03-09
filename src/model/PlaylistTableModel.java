@@ -8,6 +8,14 @@ import java.util.List;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
+/**
+ * 
+ * @author Brian Wehrle
+ * @author Patrick Maley
+ * 
+ * Class Description: PlayListTableModel adapts our Playlist class to be displayed as a 
+ * TableModel object. It provides all the necessary methods to implement TableModel.
+ */
 public class PlaylistTableModel implements TableModel{
 	
 	private Playlist playCollection;
@@ -19,21 +27,45 @@ public class PlaylistTableModel implements TableModel{
 		this.playCollection = Playlist.makePlayCollection();
 		
 	}
+	/** Retrieves the number of rows in the Table.
+	 * 
+	 * @return The number of rows.
+	 */
 	@Override
 	public int getRowCount() {
 		return this.playCollection.getSize();
 	}
-
+	
+	/** Retrieves the number of columns in the Table.
+	 * 
+	 * @return The number of columns.
+	 */
 	@Override
 	public int getColumnCount() {
 		return COLUMN_NAMES.size();
 	}
 
+	/**
+	 * Gets the column name at the specified index.
+	 * 
+	 *  @param columnIndex
+	 *  	The index of the column.
+	 *  
+	 *  @return The name of the column at the specified index.
+	 */
 	@Override
 	public String getColumnName(int columnIndex) {
 		return COLUMN_NAMES.get(columnIndex);
 	}
 
+	/**
+	 * Gets the class of the elements held in the specified column.
+	 * 
+	 * @param columnIndex: 
+	 * 		The index of the column
+	 * 
+	 * @return The class of the elements held in the column
+	 */
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -48,11 +80,27 @@ public class PlaylistTableModel implements TableModel{
 	}
 	}
 
+	/**
+	 * Determines if the cell is editable at the specified cell.
+	 * 
+	 * @param rowIndex
+	 * 		The index of the row of the cell.
+	 * 
+	 * @param columnIndex
+	 * 		The index of the column of the cell.
+	 * 
+	 * @return Boolean stating if the cell is editable.
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return false;
 	}
 
+	/**
+	 * Retrieves the value at the specified row and column.
+	 * 
+	 * @param 
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		int start = 0;

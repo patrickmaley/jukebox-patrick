@@ -142,7 +142,7 @@ public class JukeBoxTester {
 	
 	@Test
 	public void CardReaderTest() {
-		CardReader cardReader = new CardReader(AccountCollection.makeAccountCollection());
+		CardReader cardReader = CardReader.makeCardReader(AccountCollection.makeAccountCollection());
 		
 		assertEquals(true, cardReader.readAccount("Chris", 1));
 		assertEquals(false, cardReader.readAccount("Chris", 22));
