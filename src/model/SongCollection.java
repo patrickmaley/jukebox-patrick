@@ -2,12 +2,14 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**@author Brian Wehrle
+ * @author Patrick Maley
+ *
+ *Class Description: SongCollection contains the list that holds our collection of songs.
+ * It hardcodes the songs into the list upon construction. 
+ */
 public class SongCollection implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7242006385882812861L;
 	
 	public ArrayList<Song> list;
@@ -18,6 +20,12 @@ public class SongCollection implements Serializable{
 		setUpSongList();
 	}
 	
+	/**
+	 * Singleton implementation. If uniqueSongCollection is null,
+	 * it constructs a new one. If not, it returns uniqueSongCollection.
+	 * 
+	 * @return The unique instance of this object.
+	 */
 	public static SongCollection makeSongCollection() {
 		if (uniqueSongCollection == null)
 			uniqueSongCollection = new SongCollection();
@@ -47,22 +55,39 @@ public class SongCollection implements Serializable{
 		
 		
 	}
+	
 	private void add(Song song) {
-		list.add(song);
-		
+		list.add(song);		
 	}
 	
+	/**
+	 * Returns the size of the song list.
+	 * 
+	 * @return the size of the song list.
+	 */
 	public int getSize() {
 		return list.size();
 	}
 
+	/**
+	 * Returns the song at the specified index.
+	 * 
+	 * @param index
+	 * 		The index at which to retrieve the song from the list.
+	 * 
+	 * @return
+	 * 		The song at the specified index.
+	 */
 	public Song getElementAt(int index) {
 		return list.get(index);
 	}
 	
+	/**
+	 * Resets the number of plays of all songs in the list to 0.
+	 */
 	public void resetSongs(){
 		for (Song song : list) {
-			song.numberOfPlays = 0;
+			song.setNumPlays(0);
 		}
 	}
 }

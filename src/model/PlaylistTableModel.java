@@ -99,7 +99,13 @@ public class PlaylistTableModel implements TableModel{
 	/**
 	 * Retrieves the value at the specified row and column.
 	 * 
-	 * @param 
+	 * @param rowIndex 
+	 * 		Index of the row.
+	 * 
+	 * @param columnIndex
+	 * 		Index of the column
+	 * 
+	 * @return The value of the object at the specified cell.
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -133,18 +139,41 @@ public class PlaylistTableModel implements TableModel{
 	
 	}
 
+	/**
+	 * Sets the value at specified cell.
+	 * 
+	 * @param aValue
+	 * 		The value to be set.
+	 * 
+	 * @param rowIndex
+	 * 		The index of the row.
+	 * 
+	 * @param columnIndex
+	 * 		The index of the column.
+	 */
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Adds a Listener to the table
+	 * 
+	 * @param l
+	 * 		The listener to be added.
+	 */
 	@Override
 	public void addTableModelListener(TableModelListener l) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Removes a listener from the table.
+	 * 
+	 * @param The listener to be removed.
+	 */
 	@Override
 	public void removeTableModelListener(TableModelListener l) {
 		// TODO Auto-generated method stub
